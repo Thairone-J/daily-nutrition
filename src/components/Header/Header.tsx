@@ -2,6 +2,7 @@
 
 import styles from './Header.module.scss';
 import { usePathname } from 'next/navigation';
+import LanguageSwitcher from '../LanguageSwitcher/LanguageSwitcher';
 
 export default function Header() {
   const pathname = usePathname();
@@ -17,6 +18,7 @@ export default function Header() {
       </a>
       {shouldShowLogin && (
         <div className={styles.nav}>
+          <LanguageSwitcher />
           <a href="./login">Login</a>
         </div>
       )}
