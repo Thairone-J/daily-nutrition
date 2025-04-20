@@ -1,8 +1,14 @@
+'use client';
+
+import '../i18n';
+
 import styles from './page.module.scss';
 import Button from '@/components/UI/Button/Button';
-import Card from '@/components/UI/Card/Card';
+import { useTranslation } from 'react-i18next';
 
 export default function Home() {
+  const { t } = useTranslation();
+
   return (
     <div className={styles.wrapper}>
       <div className={styles.page}>
@@ -10,18 +16,15 @@ export default function Home() {
           <img src="./logo.png" alt="" />
           <div className={styles['text-content']}>
             <h1>Daily nutrition</h1>
-            <h2>
-              Registre refeições, veja as calorias e nutrientes de cada alimento, acompanhe metas e
-              cuide da sua saúde de forma simples e prática.
-            </h2>
+            <h2>{t('welcomePage.description')}</h2>
           </div>
 
           <div className={styles['start-links']}>
             <Button fontSize="medium" variant="primary">
-              Registrar refeição
+              {t('welcomePage.button')}
             </Button>
             <a href="" className={styles.link}>
-              Saiba mais sobre Daily Nutrition ↗
+              {t('welcomePage.link')} ↗
             </a>
           </div>
         </div>
