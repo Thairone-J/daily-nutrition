@@ -3,5 +3,26 @@
     "description": "Track meals, see calories and nutrients of each food, follow your goals and take care of your health in a simple and practical way.",
     "button": "Track a meal",
     "link": "Learn more about Daily nutrition"
+  },
+
+  "authForm": {
+    "emailPlaceholder": "Enter your email",
+    "passwordPlaceholder": "Enter your password",
+    "forgotPasswordLink": "Forgot username or password?",
+
+    "login": {
+      "title": "SIGN IN TO YOUR ACCOUNT",
+      "button": "Sign in with email",
+      "googleButton": "Sign in with Google"
+    },
+    "register": {
+      "title": "CREATE YOUR ACCOUNT",
+      "button": "Register with email",
+      "googleButton": "Register with Google"
+    },
+    "footer": {
+      "createAccount": "Don't have an account? Sign up",
+      "signin": "Already have an account? Log in"
+    }
   }
 }

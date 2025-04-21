@@ -3,5 +3,26 @@
     "description": "Registre refeições, veja as calorias e nutrientes de cada alimento, acompanhe metas e cuide da sua saúde de forma simples e prática.",
     "button": "Registrar refeição",
     "link": "Saiba mais sobre Daily nutrition"
+  },
+
+  "authForm": {
+    "emailPlaceholder": "Digite seu email",
+    "passwordPlaceholder": "Digite sua senha",
+    "forgotPasswordLink": "Esqueceu o usuário ou senha?",
+
+    "login": {
+      "title": "ENTRE COM SUA CONTA",
+      "button": "Entrar com email",
+      "googleButton": "Entrar com Google"
+    },
+    "register": {
+      "title": "CRIE SUA CONTA",
+      "button": "Cadastrar com email",
+      "googleButton": "Cadastrar com Google"
+    },
+    "footer": {
+      "createAccount": "Não tem conta? Criar conta",
+      "signin": "Já tem conta? Fazer login"
+    }
   }
 }
