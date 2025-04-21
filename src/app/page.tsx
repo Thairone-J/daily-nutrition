@@ -1,6 +1,6 @@
 'use client';
 
-import '../i18n';
+import '@/i18n';
 
 import styles from './page.module.scss';
 import Button from '@/components/UI/Button/Button';
