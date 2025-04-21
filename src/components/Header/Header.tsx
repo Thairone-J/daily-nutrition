@@ -1,5 +1,5 @@
 'use client';
-
+import Link from 'next/link';
 import styles from './Header.module.scss';
 import { usePathname } from 'next/navigation';
 import LanguageSwitcher from '../LanguageSwitcher/LanguageSwitcher';
@@ -12,16 +12,14 @@ export default function Header() {
 
   return (
     <header className={styles.header}>
-      <a className={styles.logowrapper} href="./">
+      <Link className={styles.logowrapper} href="./">
         <img src="/logo.png" alt="Logo" />
         <h1>Daily nutrition</h1>
-      </a>
-      {shouldShowLogin && (
-        <div className={styles.nav}>
-          <LanguageSwitcher />
-          <a href="./login">Login</a>
-        </div>
-      )}
+      </Link>
+      <div className={styles.nav}>
+        <LanguageSwitcher />
+        {shouldShowLogin && <Link href="/login">Login</Link>}
+      </div>
     </header>
   );
 }
