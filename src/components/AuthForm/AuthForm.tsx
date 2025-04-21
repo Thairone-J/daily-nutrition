@@ -57,7 +57,7 @@ export default function AuthForm({ mode, onSubmit }: AuthFormProps) {
       </div>
       <div className={styles.footer}>
         <Link href={mode === 'login' ? '/register' : '/login'}>
-          {mode === 'login' ? t('authForm.footer.createAccount') : t('authForm.footer.sigin')}
+          {mode === 'login' ? t('authForm.footer.createAccount') : t('authForm.footer.signin')}
         </Link>
       </div>
     </form>
