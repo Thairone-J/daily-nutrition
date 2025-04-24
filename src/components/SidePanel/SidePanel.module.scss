@@ -1,0 +1,33 @@
+.wrapper {
+  background-color: #172030;
+  border-right: 1px solid #42484d;
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-rows: 220px 1fr;
+  overflow: hidden;
+
+  .goalsWrapper {
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template-rows: 1fr 3fr;
+    border-bottom: 1px solid #42484d;
+  }
+
+  .mealsWrapper {
+    width: 100%;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    padding: 25px;
+    align-items: center;
+    overflow-y: auto;
+    &::-webkit-scrollbar {
+      display: none;
+    }
+    p {
+      color: white;
+    }
+  }
+}
