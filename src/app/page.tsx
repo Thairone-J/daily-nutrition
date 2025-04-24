@@ -2,6 +2,7 @@
 
 import '@/i18n';
 
+import Link from 'next/link';
 import styles from './page.module.scss';
 import Button from '@/components/UI/Button/Button';
 import { useTranslation } from 'react-i18next';
@@ -20,12 +21,14 @@ export default function Home() {
           </div>
 
           <div className={styles['start-links']}>
-            <Button fontSize="medium" variant="primary">
-              {t('welcomePage.button')}
-            </Button>
-            <a href="" className={styles.link}>
+            <Link href='/dashboard' className={styles.buttonLink}>
+              <Button fontSize="medium" variant="primary">
+                {t('welcomePage.button')}
+              </Button>
+            </Link>
+            <Link href="" className={styles.link}>
               {t('welcomePage.link')} ↗
-            </a>
+            </Link>
           </div>
         </div>
       </div>
