@@ -1,0 +1,12 @@
+.wrapper {
+  font-size: 0.7rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+  .foodName {
+    display: flex;
+    width: 100%;
+    margin-left: 5px;
+  }
+}

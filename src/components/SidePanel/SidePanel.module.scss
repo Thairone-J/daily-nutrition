@@ -4,7 +4,7 @@
   width: 100%;
   height: 100%;
   display: grid;
-  grid-template-rows: 220px 1fr;
+  grid-template-rows: 190px 50px 1fr;
   overflow: hidden;
 
   .goalsWrapper {
@@ -28,6 +28,23 @@
     }
     p {
       color: white;
+    }
+  }
+
+  .buttonWrapper {
+    z-index: 1;
+    background-color: #172030;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0px 20px 15px #172030;
+    width: 100%;
+    height: 100%;
+    button {
+      width: 80%;
+      height: 35px;
     }
   }
 }
