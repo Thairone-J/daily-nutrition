@@ -3,6 +3,7 @@ import Header from '@/components/Header/Header';
 import Footer from '@/components/Footer/Footer';
 import styles from './layout.module.scss';
 import I18nProvider from '@/components/I18nProvider';
+import { MealsProvider } from '@/context/MealsContext';
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -11,7 +12,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <I18nProvider />
         <div className={styles.wrapper}>
           <Header />
-          <main className={styles.main}>{children}</main>
+          <MealsProvider>
+            <main className={styles.main}>{children}</main>
+          </MealsProvider>
           <Footer />
         </div>
       </body>
