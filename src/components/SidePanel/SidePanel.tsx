@@ -6,6 +6,7 @@ import GoalsStats from './GoalsStats/GoalsStats';
 import MealsList from '../MealsList/MealsList';
 import Button from '../UI/Button/Button';
 import { useMeals } from '@/context/MealsContext';
+import { title } from 'process';
 
 export default function SidePanel() {
   const { meals, addMeal } = useMeals();
@@ -19,7 +20,10 @@ export default function SidePanel() {
       <div className={styles.buttonWrapper}>
         <Button
           variant="outline"
-          onClick={() => addMeal({ id: crypto.randomUUID(), title: 'New Meal' })}
+          onClick={() => {
+            const newMeal = { id: crypto.randomUUID(), title: 'new meal', foods: [] };
+            addMeal(newMeal);
+          }}
         >
           Adicionar refeição
         </Button>

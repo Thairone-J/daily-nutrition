@@ -11,7 +11,7 @@ export default function MealsList() {
     <div className={styles.wrapper}>
       <div className={styles.list}>
         {meals.map((meal) => (
-          <MealCard key={meal.id} icon="edit" title={meal.title}>
+          <MealCard key={meal.id} mealId={meal.id} title={meal.title}>
             <MealFood />
           </MealCard>
         ))}
