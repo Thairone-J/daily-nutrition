@@ -6,6 +6,7 @@ type IconProps = {
   size?: number;
   color?: string;
   onClick?: () => void;
+  onMouseDown?: () => void;
 };
 
 export default function Icon({ name, size = 24, color = 'currentColor', onClick }: IconProps) {
@@ -15,7 +16,7 @@ export default function Icon({ name, size = 24, color = 'currentColor', onClick 
 
   return (
     <svg
-    className={styles.icon}
+      className={styles.icon}
       width={size}
       height={size}
       fill={color}

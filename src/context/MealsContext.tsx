@@ -22,6 +22,7 @@ type MealsContextType = {
   addFoodToMeal: (mealId: string, food: Food) => void;
   removeFoodFromMeal: (mealId: string, foodId: string) => void;
   updateMealTitle: (mealId: string, newTitle: string) => void;
+  deleteMeal: (mealId: string) => void;
 };
 
 const MealsContext = createContext<MealsContextType | undefined>(undefined);
@@ -31,6 +32,10 @@ export function MealsProvider({ children }: { children: React.ReactNode }) {
 
   const addMeal = (meal: Meal) => {
     setMeals((prevMeals) => [...prevMeals, meal]);
+  };
+
+  const deleteMeal = (mealId: string) => {
+    setMeals((prevMeals) => prevMeals.filter((meal) => meal.id !== mealId));
   };
 
   const addFoodToMeal = (mealId: string, food: Food) => {
@@ -63,7 +68,7 @@ export function MealsProvider({ children }: { children: React.ReactNode }) {
 
   return (
     <MealsContext.Provider
-      value={{ meals, addMeal, addFoodToMeal, removeFoodFromMeal, updateMealTitle }}
+      value={{ meals, addMeal, addFoodToMeal, removeFoodFromMeal, updateMealTitle, deleteMeal }}
     >
       {children}
     </MealsContext.Provider>

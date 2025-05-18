@@ -1,3 +1,4 @@
+import { init } from 'next/dist/compiled/webpack/webpack';
 import Icon from '../UI/Icon/Icon';
 import styles from './MealCard.module.scss';
 import { useMeals } from '@/context/MealsContext';
@@ -10,7 +11,7 @@ type props = {
 };
 
 export default function MealCard({ children, mealId, title: initialTitle }: props) {
-  const { updateMealTitle } = useMeals();
+  const { updateMealTitle, deleteMeal} = useMeals();
 
   const [isEditing, setIsEditing] = useState(false);
   const [editableTitle, setEditableTitle] = useState(initialTitle);
@@ -19,19 +20,22 @@ export default function MealCard({ children, mealId, title: initialTitle }: prop
     setEditableTitle(initialTitle);
   }
 
-  const handleIconClick = () => {
-    if (isEditing) {
-      if (editableTitle.trim() !== '') {
-        updateMealTitle(mealId, editableTitle.trim());
-        setIsEditing(false);
-      } else {
-        setEditableTitle(initialTitle);
-        setIsEditing(false);
-      }
+  const handleSaveMealClick = () => {
+    if (editableTitle.trim() !== '') {
+      updateMealTitle(mealId, editableTitle.trim());
+      setIsEditing(false);
     } else {
       setEditableTitle(initialTitle);
-      setIsEditing(true);
+      setIsEditing(false);
     }
+  };
+
+  const handleEditMealClick = () => {
+    setIsEditing(true);
+  };
+
+  const handleDeleteMealClick = () => {
+    deleteMeal(mealId)
   };
 
   const handleTitleChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -65,13 +69,21 @@ export default function MealCard({ children, mealId, title: initialTitle }: prop
             autoFocus
             /* onBlur={() => {
               setIsEditing(false);
-            }} */
+            }}   <<---- TODO fix (if use like that it will bug.)*/
             className={styles.titleInput}
           />
         ) : (
           <span>{initialTitle}</span>
         )}
-        <Icon onClick={handleIconClick} name={isEditing ? 'save' : 'edit'} />
+
+        {isEditing ? (
+          <>
+            <Icon onClick={handleDeleteMealClick} name={'delete'} size={20} />
+            <Icon onClick={handleSaveMealClick} name={'save'} />
+          </>
+        ) : (
+          <Icon onClick={handleEditMealClick} name={'edit'} />
+        )}
       </div>
       <div className={styles.foodList}> {children}</div>
     </div>
