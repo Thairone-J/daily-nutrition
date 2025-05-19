@@ -4,10 +4,11 @@ import { createContext, useContext, useState } from 'react';
 export type Food = {
   id: string;
   name: string;
-  quantity: number;
   kcal: number;
-  carb: number;
   protein: number;
+  lipids: number;
+  carbohydrates: number;
+  quantity: number;
 };
 
 type Meal = {

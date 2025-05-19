@@ -1,5 +1,7 @@
 import styles from './page.module.scss';
 import SidePanel from '@/components/SidePanel/SidePanel';
+import SearchBar from '@/components/SearchBar/SearchBar'
+
 
 export default function dashboard() {
   return (
@@ -7,7 +9,7 @@ export default function dashboard() {
       <div className={styles.sidePanel}>
         <SidePanel />
       </div>
-      <div className={styles.searchArea}>SearchArea</div>
+      <div className={styles.searchArea}><SearchBar/></div>
     </div>
   );
 }

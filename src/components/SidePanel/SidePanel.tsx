@@ -21,7 +21,11 @@ export default function SidePanel() {
         <Button
           variant="outline"
           onClick={() => {
-            const newMeal = { id: crypto.randomUUID(), title: 'new meal', foods: [] };
+            const newMeal = {
+              id: crypto.randomUUID(),
+              title: 'new meal',
+              foods: [],
+            };
             addMeal(newMeal);
           }}
         >
