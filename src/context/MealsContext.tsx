@@ -1,7 +1,7 @@
 'use client';
 import { createContext, useContext, useState } from 'react';
 
-type Food = {
+export type Food = {
   id: string;
   name: string;
   quantity: number;
@@ -23,6 +23,7 @@ type MealsContextType = {
   removeFoodFromMeal: (mealId: string, foodId: string) => void;
   updateMealTitle: (mealId: string, newTitle: string) => void;
   deleteMeal: (mealId: string) => void;
+  updateFoodQuantity: (foodId: string, mealId: string, newQuantity: number) => void;
 };
 
 const MealsContext = createContext<MealsContextType | undefined>(undefined);
@@ -66,9 +67,33 @@ export function MealsProvider({ children }: { children: React.ReactNode }) {
     );
   };
 
+  const updateFoodQuantity = (mealId: string, foodId: string, newQuantity: number) => {
+    setMeals((prevMeals) =>
+      prevMeals.map((meal) => {
+        if (meal.id !== mealId) {
+          return meal;
+        }
+
+        const updatedFoods = meal.foods.map((food) =>
+          food.id === foodId ? { ...food, quantity: newQuantity } : food
+        );
+
+        return { ...meal, foods: updatedFoods };
+      })
+    );
+  };
+
   return (
     <MealsContext.Provider
-      value={{ meals, addMeal, addFoodToMeal, removeFoodFromMeal, updateMealTitle, deleteMeal }}
+      value={{
+        meals,
+        addMeal,
+        addFoodToMeal,
+        removeFoodFromMeal,
+        updateMealTitle,
+        deleteMeal,
+        updateFoodQuantity,
+      }}
     >
       {children}
     </MealsContext.Provider>

@@ -1,8 +1,7 @@
-import { init } from 'next/dist/compiled/webpack/webpack';
 import Icon from '../UI/Icon/Icon';
 import styles from './MealCard.module.scss';
 import { useMeals } from '@/context/MealsContext';
-import { useState, ChangeEvent } from 'react';
+import { useState, ChangeEvent, createContext, useContext } from 'react';
 
 type props = {
   children: React.ReactNode;
@@ -10,8 +9,24 @@ type props = {
   title: string;
 };
 
+type MealCardContextType = {
+  isEditing: boolean;
+};
+
+const MealCardContext = createContext<MealCardContextType | undefined>(undefined);
+
+export const useMealCardState = () => {
+  const context = useContext(MealCardContext);
+  if (context === undefined) {
+    throw new Error(
+      'useMealCardSharedState must be used within a MealCardProvider (MealCard component)'
+    );
+  }
+  return context;
+};
+
 export default function MealCard({ children, mealId, title: initialTitle }: props) {
-  const { updateMealTitle, deleteMeal} = useMeals();
+  const { updateMealTitle, deleteMeal } = useMeals();
 
   const [isEditing, setIsEditing] = useState(false);
   const [editableTitle, setEditableTitle] = useState(initialTitle);
@@ -35,7 +50,7 @@ export default function MealCard({ children, mealId, title: initialTitle }: prop
   };
 
   const handleDeleteMealClick = () => {
-    deleteMeal(mealId)
+    deleteMeal(mealId);
   };
 
   const handleTitleChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -63,7 +78,7 @@ export default function MealCard({ children, mealId, title: initialTitle }: prop
         {isEditing ? (
           <input
             type="text"
-            value={editableTitle}
+            placeholder={editableTitle}
             onChange={handleTitleChange}
             onKeyDown={handleInputKeyDown}
             autoFocus
@@ -78,14 +93,16 @@ export default function MealCard({ children, mealId, title: initialTitle }: prop
 
         {isEditing ? (
           <>
-            <Icon onClick={handleDeleteMealClick} name={'delete'} size={20} />
-            <Icon onClick={handleSaveMealClick} name={'save'} />
+            <Icon onClick={handleDeleteMealClick} name={'delete'} size={18} />
+            <Icon onClick={handleSaveMealClick} name={'save'} size={20} />
           </>
         ) : (
-          <Icon onClick={handleEditMealClick} name={'edit'} />
+          <Icon onClick={handleEditMealClick} name={'edit'} size={20} />
         )}
       </div>
-      <div className={styles.foodList}> {children}</div>
+      <MealCardContext.Provider value={{ isEditing }}>
+        <div className={styles.foodList}> {children}</div>
+      </MealCardContext.Provider>
     </div>
   );
 }

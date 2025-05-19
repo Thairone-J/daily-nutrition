@@ -12,7 +12,16 @@ export default function MealsList() {
       <div className={styles.list}>
         {meals.map((meal) => (
           <MealCard key={meal.id} mealId={meal.id} title={meal.title}>
-            <MealFood />
+            {meal.foods.map((food) => (
+              <MealFood
+                key={food.id}
+                mealId={meal.id}
+                id={food.id}
+                name={food.name}
+                quantity={food.quantity}
+                kcal={food.kcal}
+              />
+            ))}
           </MealCard>
         ))}
       </div>
