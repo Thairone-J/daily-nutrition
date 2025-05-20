@@ -5,14 +5,21 @@ import allFoodsData from '@/context/staticFoods.json';
 
 type FoodsContextType = {
   foods: Food[];
+  currentFood?: Food;
+  setCurrentFood: React.Dispatch<React.SetStateAction<Food | undefined>>;
 };
 
 const FoodsContext = createContext<FoodsContextType | undefined>(undefined);
 
 export function FoodsProvider({ children }: { children: ReactNode }) {
   const [foods, setFoods] = useState<Food[]>(allFoodsData);
+  const [currentFood, setCurrentFood] = useState<Food>();
 
-  return <FoodsContext.Provider value={{ foods }}>{children}</FoodsContext.Provider>;
+  return (
+    <FoodsContext.Provider value={{ foods, currentFood, setCurrentFood }}>
+      {children}
+    </FoodsContext.Provider>
+  );
 }
 
 export function useFoods() {
