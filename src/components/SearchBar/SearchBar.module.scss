@@ -22,11 +22,10 @@
 .list {
   background-color: #ffffff;
   width: 100%;
-  max-height: 280px;
-  overflow-y: auto;
-  padding-left: 0;
-  margin-bottom: 0;
-  margin-top: 0;
+  max-height: 250px;
+  overflow-y: scroll;
+
+  z-index: 2;
 
   &::-webkit-scrollbar {
     display: none;
@@ -43,5 +42,29 @@
       background-color: #f0f0f0;
       cursor: pointer;
     }
+  }
+}
+
+@media (max-width: 1800px) {
+  .list {
+    max-height: 180px;
+  }
+}
+
+@media (max-width: 1600px) {
+  .list {
+    max-height: 150px;
+  }
+}
+
+@media (max-width: 1200px) {
+  .list {
+    max-height: 70px;
+  }
+}
+
+@media (max-width: 900px) {
+  .list {
+    max-height: 40px;
   }
 }

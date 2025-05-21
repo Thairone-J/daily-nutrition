@@ -13,8 +13,8 @@
     background-color: #111722;
     color: white;
     h2 {
-      margin-top: 50px;
       text-align: center;
+      margin-top: 50px;
     }
   }
 
@@ -25,31 +25,64 @@
 }
 .currentFoodDisplayArea {
   flex-direction: column;
-  margin-top: 30px;
   align-items: center;
   width: 100%;
   justify-content: end;
   display: flex;
   flex-grow: 1;
+  height: 50%;
 }
 
 .foodCard {
   background-color: #172030;
   border: 1px solid #42484d;
   border-bottom: none;
-  border-right: none;
-  border-left: none;
-
+  // border-left: none;
+  border-radius: 20px 20px 0 0;
   color: #ffffff;
-
-  padding: 25px;
-  width: 100%;
-
+  padding: 20px;
+  width: 50%;
   display: flex;
   flex-direction: column;
-  gap: 25px;
   padding-bottom: 25px;
   animation: slideUp 500ms ease-in-out;
+  max-height: 300px;
+
+  .infoRow {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    .controls {
+      gap: 5px;
+      display: flex;
+      input {
+        text-align: center;
+        width: 50px;
+        border: none;
+        border-radius: 5px;
+        &::-webkit-inner-spin-button,
+        &::-webkit-outer-spin-button {
+          -webkit-appearance: none;
+          margin: 0;
+        }
+      }
+      button {
+        cursor: pointer;
+        width: 100%;
+        border: none;
+        background-color: #5c913b;
+        color: #fff;
+        font-weight: 600;
+        padding: 10px;
+        border-radius: 5px;
+
+        &:hover {
+          background-color: #4a7a2e;
+        }
+      }
+    }
+  }
 }
 
 @keyframes slideUp {
@@ -62,69 +95,29 @@
 }
 
 .foodName {
-  font-size: 1.75em;
-  text-align: center;
-  margin: 0;
+  font-size: 1.2em;
   font-weight: 600;
-  line-height: 1.3;
+  margin-bottom: 15px;
+  border-bottom: 1px solid #42484d;
+  padding-bottom: 10px;
 }
 
 .nutrientTagsContainer {
   display: flex;
-  justify-content: space-between;
   gap: 10px;
+
   span {
-    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 0.8rem;
     text-align: center;
     color: #ffffff;
     font-weight: 600;
     border: 1px solid #42484d;
-    padding: 10px;
+    padding: 5px;
     border-radius: 5px;
   }
-}
-
-.controlsContainer {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-  margin-top: 10px;
-}
-.quantityDisplay {
-  width: 25%;
-  background-color: transparent;
-  border: 2px solid #9db2bf;
-  color: #ffffff;
-  padding: 10px 15px;
-  border-radius: 5px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  min-width: 150px;
-
-  .quantityText {
-    font-size: 1em;
-    font-weight: 700;
-    line-height: 1;
-  }
-}
-
-.display {
-  border-radius: 15px 15px 0 0;
-  flex-direction: column;
-  border: 1px solid #42484d;
-  border-bottom: none;
-  width: 50%;
-  height: 100%;
-  display: flex;
-  justify-content: end;
-}
-
-.addFoodToMealWrapper {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
 }
 
 .searchBarWrapper {
