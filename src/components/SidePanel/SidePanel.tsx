@@ -29,7 +29,7 @@ export default function SidePanel() {
             addMeal(newMeal);
           }}
         >
-          Adicionar refeição
+          Criar refeição
         </Button>
       </div>
 
