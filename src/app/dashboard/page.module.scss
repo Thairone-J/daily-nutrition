@@ -101,6 +101,7 @@
   }
 
   .controls {
+    align-items: center;
     display: flex;
     gap: 10px;
     flex-direction: column;
@@ -126,7 +127,8 @@
       text-align: center;
       padding: 10px;
       width: 100%;
-      margin-right: 10px;
+      font-size: 0.9rem;
+
       border-radius: 5px;
       &::placeholder {
         color: #ffffff9d;
@@ -135,6 +137,41 @@
       &::-webkit-outer-spin-button {
         -webkit-appearance: none;
         margin: 0;
+      }
+      /* Firefox */
+      &[type='number'] {
+        appearance: textfield;
+        -moz-appearance: textfield;
+      }
+    }
+    .dateInput::-webkit-calendar-picker-indicator {
+      cursor: pointer;
+      filter: invert(100%);
+      position: absolute;
+      width: 100%;
+    }
+
+    .dateMealInputWrapper {
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+      gap: 10px;
+
+      select {
+        width: 100%;
+        background-color: transparent;
+        color: #f8eaea;
+        border: 1px dashed #ffffff75;
+        text-align: center;
+        padding: 10px;
+        width: 100%;
+        font: 0.9rem;
+
+        border-radius: 5px;
+        option {
+          background-color: #111722;
+          color: #f8eaea;
+        }
       }
     }
   }
