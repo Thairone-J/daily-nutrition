@@ -6,9 +6,7 @@ import LanguageSwitcher from '../LanguageSwitcher/LanguageSwitcher';
 
 export default function Header() {
   const pathname = usePathname();
-
-  const hideLoginOnRoutes = ['/login', '/register'];
-  const shouldShowLogin = !hideLoginOnRoutes.includes(pathname);
+  const isAuthPage = pathname.includes('/login', 0) || pathname.includes('/register', 0);
 
   return (
     <header className={styles.header}>
@@ -18,7 +16,7 @@ export default function Header() {
       </Link>
       <div className={styles.nav}>
         <LanguageSwitcher />
-        {shouldShowLogin && <Link href="/login">Login</Link>}
+        {isAuthPage ? null : <Link href="/login">Login</Link>}
       </div>
     </header>
   );
