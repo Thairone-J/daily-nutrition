@@ -1,14 +1,12 @@
 'use client';
 
-import '@/i18n';
-
 import Link from 'next/link';
 import styles from './page.module.scss';
 import Button from '@/components/UI/Button/Button';
-import { useTranslation } from 'react-i18next';
+import { useTranslations } from 'next-intl';
 
 export default function Home() {
-  const { t } = useTranslation();
+  const t = useTranslations();
 
   return (
     <div className={styles.wrapper}>
@@ -21,7 +19,7 @@ export default function Home() {
           </div>
 
           <div className={styles['start-links']}>
-            <Link href='/dashboard' className={styles.buttonLink}>
+            <Link href="/dashboard" className={styles.buttonLink}>
               <Button fontSize="medium" variant="primary">
                 {t('welcomePage.button')}
               </Button>

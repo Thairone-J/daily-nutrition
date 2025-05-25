@@ -4,7 +4,7 @@ import { useState } from 'react';
 import styles from './AuthForm.module.scss';
 import Link from 'next/link';
 
-import { useTranslation } from 'react-i18next';
+import { useTranslations } from 'next-intl';
 
 type AuthMode = 'login' | 'register';
 
@@ -14,7 +14,7 @@ type AuthFormProps = {
 };
 
 export default function AuthForm({ mode, onSubmit }: AuthFormProps) {
-  const { t } = useTranslation();
+  const t = useTranslations();
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');

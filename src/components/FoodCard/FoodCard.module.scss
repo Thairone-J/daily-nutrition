@@ -1,38 +1,3 @@
-.wrapper {
-  display: grid;
-  grid-template-columns: 350px 1fr;
-  position: absolute;
-  height: 100%;
-  width: 100%;
-
-  .searchArea {
-    display: flex;
-    flex-direction: column;
-    grid-template-rows: auto;
-
-    background-color: #111722;
-    color: white;
-    h2 {
-      text-align: center;
-      margin-top: 50px;
-    }
-  }
-
-  .sidePanel {
-    display: flex;
-    overflow: hidden;
-  }
-}
-.currentFoodDisplayArea {
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-  justify-content: end;
-  display: flex;
-  flex-grow: 1;
-  height: 50%;
-}
-
 .foodCard {
   overflow: hidden;
   background-color: #172030;
@@ -197,10 +162,6 @@
   to {
     transform: translateY(0);
   }
-}
-
-.searchBarWrapper {
-  height: 50%;
 }
 
 @media (max-width: 1200px) {

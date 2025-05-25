@@ -1,25 +1,15 @@
-import i18n from 'i18next';
-import { initReactI18next } from 'react-i18next';
-import LanguageDetector from 'i18next-browser-languagedetector';
-import HttpBackend from 'i18next-http-backend';
+import { getRequestConfig } from 'next-intl/server';
+import { notFound } from 'next/navigation';
 
-i18n
-  .use(HttpBackend)
-  .use(LanguageDetector)
-  .use(initReactI18next)
-  .init({
-    fallbackLng: 'pt',
-    supportedLngs: ['pt', 'en'],
-    interpolation: {
-      escapeValue: false,
-    },
-    react: {
-      useSuspense: false,
-    },
-    debug: false,
-    backend: {
-      loadPath: '/locales/{{lng}}/translation.json',
-    },
-  });
+const locales = ['pt', 'en'];
 
-export default i18n;
+export default getRequestConfig(async ({ locale }) => {
+  if (typeof locale !== 'string' || !locales.includes(locale)) {
+    notFound();
+  }
+
+  return {
+    locale,
+    messages: (await import(`./messages/${locale}.json`)).default,
+  };
+});
