@@ -2,7 +2,6 @@
 import { useState } from 'react';
 import { useFoods } from '@/context/FoodsContext';
 import styles from './SearchBar.module.scss';
-import { Food } from '@/context/MealsContext';
 
 export default function SearchBar() {
   const { foods } = useFoods();
@@ -37,7 +36,7 @@ export default function SearchBar() {
       {filteredFoods.length > 0 && searchTerm !== '' ? (
         <ul className={styles.list}>
           {filteredFoods.slice(0, 20).map((food) => (
-            <li key={food.id} onClick={() => setCurrentFood(food)}>
+            <li key={food.id} onClick={() => setCurrentFood({ ...food })}>
               {food.name}
             </li>
           ))}
