@@ -41,7 +41,7 @@ export default function FoodCard({ food }: FoodCardProps) {
       if (!meal) {
         alert('Choose a meal');
       } else if (currentFood) {
-        addFoodToMeal(meal.id, { ...food, id: crypto.randomUUID() });
+        addFoodToMeal(meal.id, { ...food, id: crypto.randomUUID(), quantity: foodQuantity });
       }
     }
   };
@@ -78,13 +78,13 @@ export default function FoodCard({ food }: FoodCardProps) {
           type="number"
           placeholder={food.quantity + 'g'}
           onChange={(event) => {
-            const value = event.target.value;
+            const quantityInputValue = Number(event.target.value);
 
-            if (value === '') {
+            if (quantityInputValue.toString() === '') {
               isAddingToMeal ? setIsAddingToMeal(false) : null;
               setFoodQuantity(0);
             } else {
-              setFoodQuantity(Number(event.target.value));
+              setFoodQuantity(quantityInputValue);
               setIsAddingToMeal(true);
             }
           }}
