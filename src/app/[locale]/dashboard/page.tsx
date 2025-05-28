@@ -7,7 +7,7 @@ import { useFoods } from '@/context/FoodsContext';
 import FoodCard from '@/components/FoodCard/FoodCard';
 
 export default function Dashboard() {
-  const { currentFood } = useFoods();
+  const { selectedFood } = useFoods();
 
   return (
     <div className={styles.wrapper}>
@@ -20,7 +20,7 @@ export default function Dashboard() {
           <SearchBar />
         </div>
         <div className={styles.currentFoodDisplayArea}>
-          {currentFood ? <FoodCard food={currentFood} /> : null}
+          {selectedFood ? <FoodCard food={selectedFood} /> : null}
         </div>
       </div>
     </div>

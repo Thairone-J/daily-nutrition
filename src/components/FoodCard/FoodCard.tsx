@@ -24,14 +24,14 @@ export default function FoodCard({ food }: FoodCardProps) {
   const [hasQuantity, setHasQuantity] = useState<boolean | 'initial'>('initial');
 
   const { meals, addFoodToMeal } = useMeals();
-  const { currentFood, setCurrentFood } = useFoods();
+  const { setselectedFood } = useFoods();
 
-  const foodFirstName = currentFood?.name.split(',', 1);
+  const foodFirstName = food.name.split(',', 1);
 
   const handleClosingAnimationEnd = () => {
     setIsClosing(false);
     setIsAddingToMeal(false);
-    setCurrentFood(undefined);
+    setselectedFood(undefined);
   };
 
   const handleAddFoodToMeal = () => {
@@ -40,7 +40,7 @@ export default function FoodCard({ food }: FoodCardProps) {
     } else {
       if (!meal) {
         alert('Choose a meal');
-      } else if (currentFood) {
+      } else {
         addFoodToMeal(meal.id, { ...food, id: crypto.randomUUID(), quantity: foodQuantity });
       }
     }
@@ -111,12 +111,18 @@ export default function FoodCard({ food }: FoodCardProps) {
               <option value="default" disabled hidden>
                 Escolher refeição
               </option>
-              {meals.map((meal) =>
-                meal.createdAt === selectedDate ? (
-                  <option key={meal.id} value={meal.id}>
-                    {meal.title}
-                  </option>
-                ) : null
+              {meals.filter((meal) => meal.createdAt === selectedDate).length > 0 ? (
+                meals
+                  .filter((meal) => meal.createdAt === selectedDate)
+                  .map((meal) => (
+                    <option key={meal.id} value={meal.id}>
+                      {meal.title}
+                    </option>
+                  ))
+              ) : (
+                <option value="none" disabled>
+                  Nenhuma refeição registrada
+                </option>
               )}
             </select>
           </div>

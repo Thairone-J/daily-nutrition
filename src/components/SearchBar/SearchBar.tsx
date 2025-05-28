@@ -14,14 +14,14 @@ export default function SearchBar() {
 
     if (!term) {
       // Hide food stats if search bar is empty
-      setCurrentFood(undefined);
+      setselectedFood(undefined);
     }
 
     const results = foods.filter((food) => food.name.toLowerCase().includes(term));
     setFilteredFoods(results);
   };
 
-  const { setCurrentFood } = useFoods();
+  const { setselectedFood } = useFoods();
 
   return (
     <div className={styles.searchWrapper}>
@@ -36,7 +36,7 @@ export default function SearchBar() {
       {filteredFoods.length > 0 && searchTerm !== '' ? (
         <ul className={styles.list}>
           {filteredFoods.slice(0, 20).map((food) => (
-            <li key={food.id} onClick={() => setCurrentFood({ ...food })}>
+            <li key={food.id} onClick={() => setselectedFood({ ...food })}>
               {food.name}
             </li>
           ))}
