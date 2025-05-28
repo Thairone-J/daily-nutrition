@@ -3,36 +3,63 @@ import { Food } from '@/context/MealsContext';
 import { useFoods } from '@/context/FoodsContext';
 import { useState } from 'react';
 import { useMeals } from '@/context/MealsContext';
+import { Meal } from '@/context/MealsContext';
 
 type FoodCardProps = {
   food: Food;
 };
 
 export default function FoodCard({ food }: FoodCardProps) {
+  const date = new Date();
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  const today = `${year}-${month}-${day}`;
+
+  const [selectedDate, setSelectedDate] = useState<string>(today);
   const [isClosing, setIsClosing] = useState(false);
   const [isAddingToMeal, setIsAddingToMeal] = useState(false);
-  const { meals } = useMeals();
+  const [meal, setMeal] = useState<Meal | null>(null);
+  const [foodQuantity, setFoodQuantity] = useState(0);
+  const [hasQuantity, setHasQuantity] = useState<boolean | 'initial'>('initial');
 
-  const date = new Date();
-  const day = date.getDate();
-  const month = date.getMonth() + 1;
-  const year = date.getFullYear();
-  const formattedMonth = String(month).padStart(2, '0');
-  const formattedDay = String(day).padStart(2, '0');
-  const formattedTodayDate = `${year}-${formattedMonth}-${formattedDay}`;
-
+  const { meals, addFoodToMeal } = useMeals();
   const { currentFood, setCurrentFood } = useFoods();
 
-  const handleAnimationEnd = () => {
-    setCurrentFood(undefined);
+  const foodFirstName = currentFood?.name.split(',', 1);
+
+  const handleClosingAnimationEnd = () => {
     setIsClosing(false);
     setIsAddingToMeal(false);
+    setCurrentFood(undefined);
+  };
+
+  const handleAddFoodToMeal = () => {
+    if (foodQuantity == 0) {
+      setHasQuantity(false);
+    } else {
+      if (!meal) {
+        alert('Choose a meal');
+      } else if (currentFood) {
+        addFoodToMeal(meal.id, { ...food, id: crypto.randomUUID() });
+      }
+    }
+  };
+
+  const handleSelectMeal = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedMeal = meals.find((meal) => meal.id === event.target.value);
+
+    selectedMeal && setMeal(selectedMeal);
+  };
+
+  const handleSelectDate = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSelectedDate(event.target.value);
   };
 
   return (
     <div
       className={`${styles.foodCard} ${isClosing ? styles.isClosingAnimation : ''}`}
-      onAnimationEnd={isClosing ? handleAnimationEnd : undefined}
+      onAnimationEnd={isClosing ? handleClosingAnimationEnd : undefined}
     >
       <div className={styles.header}>
         <span onClick={() => setIsClosing(!isClosing)}>X</span>
@@ -47,18 +74,62 @@ export default function FoodCard({ food }: FoodCardProps) {
       </div>
 
       <div className={styles.controls}>
-        <input type="number" placeholder={food.quantity + 'g'} />
+        <input
+          type="number"
+          placeholder={food.quantity + 'g'}
+          onChange={(event) => {
+            const value = event.target.value;
+
+            if (value === '') {
+              isAddingToMeal ? setIsAddingToMeal(false) : null;
+              setFoodQuantity(0);
+            } else {
+              setFoodQuantity(Number(event.target.value));
+              setIsAddingToMeal(true);
+            }
+          }}
+          className={hasQuantity ? undefined : styles.missingQuantityShakeAnimation}
+          onAnimationEnd={() => setHasQuantity('initial')}
+        />
         {isAddingToMeal ? (
           <div className={styles.dateMealInputWrapper}>
-            <input type="date" defaultValue={formattedTodayDate} className={styles.dateInput} />
-            <select name="selectMeal" id="selectMeal">
-              {meals.map((meal) => (
-                <option key={meal.id}>{meal.title}</option>
-              ))}
+            <input
+              type="date"
+              defaultValue={today}
+              className={styles.dateInput}
+              onChange={(e) => {
+                handleSelectDate(e);
+                e.target.blur();
+              }}
+            />
+            <select
+              name="selectMeal"
+              id="selectMeal"
+              onChange={handleSelectMeal}
+              defaultValue={'default'}
+            >
+              <option value="default" disabled hidden>
+                Escolher refeição
+              </option>
+              {meals.map((meal) =>
+                meal.createdAt === selectedDate ? (
+                  <option key={meal.id} value={meal.id}>
+                    {meal.title}
+                  </option>
+                ) : null
+              )}
             </select>
           </div>
         ) : null}
-        <button onClick={() => {setIsAddingToMeal(!isAddingToMeal)}}>Adicionar a uma refeição</button>
+        <button
+          onClick={() => {
+            handleAddFoodToMeal();
+          }}
+        >
+          {!isAddingToMeal
+            ? `Adicionar ${foodFirstName} a uma refeição`
+            : `Adicionar ${foodFirstName} a ${meal?.title || 'uma refeição'}`}
+        </button>
       </div>
     </div>
   );
