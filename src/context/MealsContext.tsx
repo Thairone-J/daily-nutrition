@@ -11,10 +11,11 @@ export type Food = {
   quantity: number;
 };
 
-type Meal = {
+export type Meal = {
   id: string;
-  title: string;
+  title?: string;
   foods: Food[];
+  createdAt?: string;
 };
 
 type MealsContextType = {
