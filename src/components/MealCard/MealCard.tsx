@@ -1,48 +1,22 @@
 import Icon from '../UI/Icon/Icon';
 import styles from './MealCard.module.scss';
-import { useMeals } from '@/context/MealsContext';
-import { useState, ChangeEvent, createContext, useContext } from 'react';
+import { Meal, useMeals } from '@/context/MealsContext';
+import { useState, ChangeEvent, KeyboardEvent } from 'react';
 
-type props = {
-  children: React.ReactNode;
-  mealId: string;
-  title: string;
-};
-
-type MealCardContextType = {
-  isEditing: boolean;
-};
-
-const MealCardContext = createContext<MealCardContextType | undefined>(undefined);
-
-export const useMealCardState = () => {
-  const context = useContext(MealCardContext);
-  if (context === undefined) {
-    throw new Error(
-      'useMealCardSharedState must be used within a MealCardProvider (MealCard component)'
-    );
-  }
-  return context;
-};
-
-export default function MealCard({ children, mealId, title: initialTitle }: props) {
-  const { updateMealTitle, deleteMeal } = useMeals();
+export default function MealCard({ id, title, foods }: Meal) {
+  const { updateMealTitle, deleteMeal, updateFoodQuantity } = useMeals();
 
   const [isEditing, setIsEditing] = useState(false);
-  const [editableTitle, setEditableTitle] = useState(initialTitle);
-
-  if (!isEditing && initialTitle !== editableTitle) {
-    setEditableTitle(initialTitle);
-  }
+  const [mealTitle, setMealTitle] = useState('');
 
   const handleSaveMealClick = () => {
-    if (editableTitle.trim() !== '') {
-      updateMealTitle(mealId, editableTitle.trim());
-      setIsEditing(false);
+    const trimmedTitle = mealTitle.trim();
+    if (trimmedTitle !== '') {
+      updateMealTitle(id, trimmedTitle);
     } else {
-      setEditableTitle(initialTitle);
-      setIsEditing(false);
+      setMealTitle('');
     }
+    setIsEditing(false);
   };
 
   const handleEditMealClick = () => {
@@ -50,25 +24,28 @@ export default function MealCard({ children, mealId, title: initialTitle }: prop
   };
 
   const handleDeleteMealClick = () => {
-    deleteMeal(mealId);
+    deleteMeal(id);
   };
 
   const handleTitleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setEditableTitle(event.target.value);
+    setMealTitle(event.target.value);
   };
 
-  const handleInputKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+  const handleInputKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter') {
-      if (editableTitle.trim() !== '') {
-        updateMealTitle(mealId, editableTitle.trim());
-        setIsEditing(false);
-      } else {
-        setEditableTitle(initialTitle);
-        setIsEditing(false);
-      }
+      handleSaveMealClick();
     } else if (event.key === 'Escape') {
-      setEditableTitle(initialTitle);
       setIsEditing(false);
+    }
+  };
+
+  const handleQuantityChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    let newQuantity = parseInt(event.target.value, 10);
+
+    if (newQuantity >= 10000) {
+      return;
+    } else {
+      updateFoodQuantity(id, id, newQuantity);
     }
   };
 
@@ -78,31 +55,66 @@ export default function MealCard({ children, mealId, title: initialTitle }: prop
         {isEditing ? (
           <input
             type="text"
-            placeholder={editableTitle}
             onChange={handleTitleChange}
             onKeyDown={handleInputKeyDown}
             autoFocus
-            /* onBlur={() => {
-              setIsEditing(false);
-            }}   <<---- TODO fix (if use like that it will bug.)*/
+            // onBlur={handleSaveMealClick}
             className={styles.titleInput}
+            placeholder="Nome da Refeição"
           />
         ) : (
-          <span>{initialTitle}</span>
+          <span>{title}</span>
         )}
 
-        {isEditing ? (
-          <>
-            <Icon onClick={handleDeleteMealClick} name={'delete'} size={18} />
-            <Icon onClick={handleSaveMealClick} name={'save'} size={20} />
-          </>
-        ) : (
-          <Icon onClick={handleEditMealClick} name={'edit'} size={20} />
-        )}
+        <div className={styles.icons}>
+          {isEditing ? (
+            <>
+              <Icon
+                onClick={handleDeleteMealClick}
+                name={'delete'}
+                size={18}
+                aria-label="Deletar refeição"
+              />
+              <Icon
+                onClick={handleSaveMealClick}
+                name={'save'}
+                size={20}
+                aria-label="Salvar título"
+              />
+            </>
+          ) : (
+            <Icon
+              onClick={handleEditMealClick}
+              name={'edit'}
+              size={20}
+              aria-label="Editar título"
+            />
+          )}
+        </div>
       </div>
-      <MealCardContext.Provider value={{ isEditing }}>
-        <div className={styles.foodList}> {children}</div>
-      </MealCardContext.Provider>
+      <div className={styles.foodList}>
+        {foods.map((food) => (
+          <div className={styles.wrapper} key={food.id}>
+            <div className={styles.inputWrapper}>
+              {isEditing ? (
+                <input
+                  type="number"
+                  className={styles.inputValue}
+                  placeholder={food.quantity.toString()}
+                  onChange={handleQuantityChange}
+                />
+              ) : (
+                food.quantity
+              )}
+              <span className={styles.fixedUnit}>g</span>
+            </div>
+
+            <div className={styles.foodName}>{food.name}</div>
+
+            <div className={styles.stats}>{food.kcal}kcal</div>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
