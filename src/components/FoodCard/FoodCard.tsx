@@ -78,13 +78,13 @@ export default function FoodCard({ food }: FoodCardProps) {
           type="number"
           placeholder={food.quantity + 'g'}
           onChange={(event) => {
-            const quantityInputValue = Number(event.target.value);
+            const quantityInputValue = event.target.value;
 
-            if (quantityInputValue.toString() === '') {
+            if (quantityInputValue === '') {
               isAddingToMeal ? setIsAddingToMeal(false) : null;
               setFoodQuantity(0);
             } else {
-              setFoodQuantity(quantityInputValue);
+              setFoodQuantity(Number(quantityInputValue));
               setIsAddingToMeal(true);
             }
           }}
