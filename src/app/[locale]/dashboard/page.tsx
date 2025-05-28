@@ -4,8 +4,6 @@ import styles from './page.module.scss';
 import SidePanel from '@/components/SidePanel/SidePanel';
 import SearchBar from '@/components/SearchBar/SearchBar';
 import { useFoods } from '@/context/FoodsContext';
-import { useState } from 'react';
-import { useMeals } from '@/context/MealsContext';
 import FoodCard from '@/components/FoodCard/FoodCard';
 
 export default function Dashboard() {
