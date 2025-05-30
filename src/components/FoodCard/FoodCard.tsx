@@ -78,28 +78,28 @@ export default function FoodCard({ food }: FoodCardProps) {
           ️‍🔥
           {inputFoodQuantity > 0
             ? Number((food.kcal * inputFoodQuantity).toFixed(2))
-            : food.kcal * 100}
+            : Number((food.kcal * 100).toFixed(2))}
           kcal
         </span>
         <span>
           Proteína:
           {inputFoodQuantity > 0
             ? Number((food.protein * inputFoodQuantity).toFixed(2))
-            : food.protein * 100}
+            : Number((food.protein * 100).toFixed(2))}
           g
         </span>
         <span>
           Carboidrato:
           {inputFoodQuantity > 0
             ? Number((food.carbohydrates * inputFoodQuantity).toFixed(2))
-            : food.carbohydrates * 100}
+            : Number((food.carbohydrates * 100).toFixed(2))}
           g
         </span>
         <span className={styles.lipid}>
           Gordura:
           {inputFoodQuantity > 0
             ? Number((food.lipids * inputFoodQuantity).toFixed(2))
-            : food.lipids * 100}
+            : Number((food.lipids * 100).toFixed(2))}
           g
         </span>
       </div>
