@@ -1,7 +1,7 @@
 'use client';
 import { createContext, useContext, ReactNode, useState } from 'react';
 import { Food } from './MealsContext';
-import allFoodsData from '@/context/staticFoods.json';
+import foodsNutrientsPer100g from '@/context/staticFoods.json';
 
 type FoodsContextType = {
   foods: Food[];
@@ -12,7 +12,18 @@ type FoodsContextType = {
 const FoodsContext = createContext<FoodsContextType | undefined>(undefined);
 
 export function FoodsProvider({ children }: { children: ReactNode }) {
-  const [foods, setFoods] = useState<Food[]>(allFoodsData);
+  const foodsNutrientsPerGram = foodsNutrientsPer100g.map((food) => {
+    return {
+      ...food,
+      quantity: 1,
+      kcal: food.kcal / 100,
+      carbohydrates: food.carbohydrates / 100,
+      protein: food.protein / 100,
+      lipids: food.lipids / 100,
+    };
+  });
+
+  const [foods, setFoods] = useState<Food[]>(foodsNutrientsPerGram);
   const [selectedFood, setselectedFood] = useState<Food>();
 
   return (

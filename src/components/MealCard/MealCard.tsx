@@ -2,60 +2,60 @@ import Icon from '../UI/Icon/Icon';
 import styles from './MealCard.module.scss';
 import { Meal, useMeals } from '@/context/MealsContext';
 import { useState, ChangeEvent, KeyboardEvent } from 'react';
+import { Food } from '@/context/MealsContext';
 
-export default function MealCard({ id, title, foods }: Meal) {
-  const { updateMealTitle, deleteMeal, updateFoodQuantity } = useMeals();
+export default function MealCard(meal: Meal) {
+  const { updateMealTitle, deleteMeal, updateFood } = useMeals();
 
   const [isEditing, setIsEditing] = useState(false);
   const [mealTitle, setMealTitle] = useState('');
 
-  const handleSaveMealClick = () => {
+  const confirmChanges = () => {
     const trimmedTitle = mealTitle.trim();
     if (trimmedTitle !== '') {
-      updateMealTitle(id, trimmedTitle);
+      updateMealTitle(meal.id, trimmedTitle);
     } else {
       setMealTitle('');
     }
     setIsEditing(false);
-  };
-
-  const handleEditMealClick = () => {
-    setIsEditing(true);
-  };
-
-  const handleDeleteMealClick = () => {
-    deleteMeal(id);
-  };
-
-  const handleTitleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setMealTitle(event.target.value);
+    // Food changes is already confirmed when food quantity input is changed.
   };
 
   const handleInputKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter') {
-      handleSaveMealClick();
+      confirmChanges();
     } else if (event.key === 'Escape') {
       setIsEditing(false);
     }
   };
 
-  const handleQuantityChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    let newQuantity = parseInt(event.target.value, 10);
+  const handleQuantityChange = (food: Food, event: React.ChangeEvent<HTMLInputElement>) => {
+    let inputQuantity = parseInt(event.target.value, 10);
 
-    if (newQuantity >= 10000) {
-      return;
-    } else {
-      updateFoodQuantity(id, id, newQuantity);
+    if (!inputQuantity || isNaN(inputQuantity) || inputQuantity >= 10000) return;
+    else {
+      const updatedFood = {
+        ...food,
+        quantity: inputQuantity,
+        // Recalculates nutrients proportionally to the new quantity.
+        kcal: (food.kcal / food.quantity) * inputQuantity,
+        protein: (food.protein / food.quantity) * inputQuantity,
+        carbohydrates: (food.carbohydrates / food.quantity) * inputQuantity,
+        lipids: (food.lipids / food.quantity) * inputQuantity,
+      };
+
+      updateFood(meal.id, updatedFood);
     }
   };
-
   return (
     <div className={styles.card}>
       <div className={styles.header}>
         {isEditing ? (
           <input
             type="text"
-            onChange={handleTitleChange}
+            onChange={(e) => {
+              setMealTitle(e.target.value);
+            }}
             onKeyDown={handleInputKeyDown}
             autoFocus
             // onBlur={handleSaveMealClick}
@@ -63,45 +63,50 @@ export default function MealCard({ id, title, foods }: Meal) {
             placeholder="Nome da Refeição"
           />
         ) : (
-          <span>{title}</span>
+          <span>{meal.title}</span>
         )}
 
         <div className={styles.icons}>
           {isEditing ? (
             <>
               <Icon
-                onClick={handleDeleteMealClick}
+                onClick={() => {
+                  deleteMeal(meal.id);
+                }}
                 name={'delete'}
                 size={18}
                 aria-label="Deletar refeição"
               />
               <Icon
-                onClick={handleSaveMealClick}
+                onClick={confirmChanges}
                 name={'save'}
                 size={20}
-                aria-label="Salvar título"
+                aria-label="Confirmar alterações"
               />
             </>
           ) : (
             <Icon
-              onClick={handleEditMealClick}
+              onClick={() => {
+                setIsEditing(true);
+              }}
               name={'edit'}
               size={20}
-              aria-label="Editar título"
+              aria-label="Editar refeição"
             />
           )}
         </div>
       </div>
       <div className={styles.foodList}>
-        {foods.map((food) => (
+        {meal.foods.map((food) => (
           <div className={styles.wrapper} key={food.id}>
             <div className={styles.inputWrapper}>
               {isEditing ? (
                 <input
                   type="number"
                   className={styles.inputValue}
+                  onKeyDown={handleInputKeyDown}
                   placeholder={food.quantity.toString()}
-                  onChange={handleQuantityChange}
+                  onChange={(e) => handleQuantityChange(food, e)}
                 />
               ) : (
                 food.quantity
@@ -109,9 +114,9 @@ export default function MealCard({ id, title, foods }: Meal) {
               <span className={styles.fixedUnit}>g</span>
             </div>
 
-            <div className={styles.foodName}>{food.name}</div>
+            <div className={styles.foodName}>{food.name.split(',', 1)}</div>
 
-            <div className={styles.stats}>{food.kcal}kcal</div>
+            <div className={styles.stats}>{isNaN(food.kcal) ? 0 : food.kcal}kcal</div>
           </div>
         ))}
       </div>

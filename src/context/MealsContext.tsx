@@ -4,11 +4,11 @@ import { createContext, useContext, useState } from 'react';
 export type Food = {
   id: string;
   name: string;
+  quantity: number;
   kcal: number;
   protein: number;
-  lipids: number;
   carbohydrates: number;
-  quantity: number;
+  lipids: number;
 };
 
 export type Meal = {
@@ -25,7 +25,7 @@ type MealsContextType = {
   removeFoodFromMeal: (mealId: string, foodId: string) => void;
   updateMealTitle: (mealId: string, newTitle: string) => void;
   deleteMeal: (mealId: string) => void;
-  updateFoodQuantity: (foodId: string, mealId: string, newQuantity: number) => void;
+  updateFood: (mealId: string, food: Food) => void;
 };
 
 const MealsContext = createContext<MealsContextType | undefined>(undefined);
@@ -68,21 +68,25 @@ export function MealsProvider({ children }: { children: React.ReactNode }) {
       prevMeals.map((meal) => (meal.id === mealId ? { ...meal, title: newTitle } : meal))
     );
   };
+  const updateFood = (mealId: string, food: Food) => {
+    setMeals((prevMeals) => {
+      const mealToUpdate = prevMeals.find((meal) => meal.id === mealId);
 
-  const updateFoodQuantity = (mealId: string, foodId: string, newQuantity: number) => {
-    setMeals((prevMeals) =>
-      prevMeals.map((meal) => {
-        if (meal.id !== mealId) {
-          return meal;
+      if (!mealToUpdate) {
+        return prevMeals;
+      }
+
+      const updatedFoods = mealToUpdate.foods.map((f) => {
+        if (f.id !== food.id) {
+          return f;
         }
+        return { ...f, ...food };
+      });
 
-        const updatedFoods = meal.foods.map((food) =>
-          food.id === foodId ? { ...food, quantity: newQuantity } : food
-        );
-
-        return { ...meal, foods: updatedFoods };
-      })
-    );
+      return prevMeals.map((meal) =>
+        meal.id === mealId ? { ...meal, foods: updatedFoods } : meal
+      );
+    });
   };
 
   return (
@@ -94,7 +98,7 @@ export function MealsProvider({ children }: { children: React.ReactNode }) {
         removeFoodFromMeal,
         updateMealTitle,
         deleteMeal,
-        updateFoodQuantity,
+        updateFood,
       }}
     >
       {children}
