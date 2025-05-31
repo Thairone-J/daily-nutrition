@@ -1,8 +1,7 @@
 import styles from './FoodCard.module.scss';
-import { Food, useMeals } from '@/context/MealsContext';
-import { useFoods } from '@/context/FoodsContext';
+import { useMeals, Meal } from '@/context/MealsContext';
+import { useFoods, Food } from '@/context/FoodsContext';
 import { useState } from 'react';
-import { Meal } from '@/context/MealsContext';
 
 type FoodCardProps = {
   food: Food;

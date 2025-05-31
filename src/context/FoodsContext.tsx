@@ -1,7 +1,16 @@
 'use client';
 import { createContext, useContext, ReactNode, useState } from 'react';
-import { Food } from './MealsContext';
 import foodsNutrientsPer100g from '@/context/staticFoods.json';
+
+export type Food = {
+  id: string;
+  name: string;
+  quantity: number;
+  kcal: number;
+  protein: number;
+  carbohydrates: number;
+  lipids: number;
+};
 
 type FoodsContextType = {
   foods: Food[];

@@ -1,15 +1,6 @@
 'use client';
 import { createContext, useContext, useState } from 'react';
-
-export type Food = {
-  id: string;
-  name: string;
-  quantity: number;
-  kcal: number;
-  protein: number;
-  carbohydrates: number;
-  lipids: number;
-};
+import { Food } from './FoodsContext';
 
 export type Meal = {
   id: string;

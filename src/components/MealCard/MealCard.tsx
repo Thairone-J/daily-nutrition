@@ -1,8 +1,8 @@
 import Icon from '../UI/Icon/Icon';
 import styles from './MealCard.module.scss';
 import { Meal, useMeals } from '@/context/MealsContext';
-import { useState, ChangeEvent, KeyboardEvent } from 'react';
-import { Food } from '@/context/MealsContext';
+import { useState, KeyboardEvent } from 'react';
+import { Food } from '@/context/FoodsContext';
 
 export default function MealCard(meal: Meal) {
   const { updateMealTitle, deleteMeal, updateFood } = useMeals();
