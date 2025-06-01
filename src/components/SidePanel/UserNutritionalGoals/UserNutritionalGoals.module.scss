@@ -36,3 +36,26 @@
     padding: 10px;
   }
 }
+
+.dateInput {
+  text-align: center;
+
+  background-color: transparent;
+  color: #ffffff;
+  border-bottom: 1px solid #42484d;
+  border-right: none;
+  text-align: center;
+  padding: 10px;
+  width: 100%;
+  font-size: 0.9rem;
+  &::placeholder {
+    color: #ffffff9d;
+  }
+
+  &::-webkit-calendar-picker-indicator {
+    cursor: pointer;
+    filter: invert(100%);
+    position: absolute;
+    width: 100%;
+  }
+}
