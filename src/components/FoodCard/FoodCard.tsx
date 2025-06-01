@@ -6,20 +6,21 @@ import { getTodayDateFormated } from '@/utils/dateUtils';
 
 type FoodCardProps = {
   food: Food;
+  isFoodCardClosing: Boolean;
+  setIsFoodCardClosing: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-export default function FoodCard({ food }: FoodCardProps) {
+export default function FoodCard({ food, isFoodCardClosing, setIsFoodCardClosing }: FoodCardProps) {
   const today = getTodayDateFormated();
 
   const [selectedDate, setSelectedDate] = useState<string>(today);
-  const [isClosing, setIsClosing] = useState(false);
   const [isAddingToMeal, setIsAddingToMeal] = useState(false);
   const [meal, setMeal] = useState<Meal | null>(null);
   const [inputFoodQuantity, setInputFoodQuantity] = useState(0);
   const [hasQuantity, setHasQuantity] = useState<boolean | 'initial'>('initial');
 
   const { meals, addFoodToMeal } = useMeals();
-  const { setselectedFood } = useFoods();
+  const { setSelectedFood } = useFoods();
 
   const foodFirstName = food.name.split(',', 1);
 
@@ -54,18 +55,18 @@ export default function FoodCard({ food }: FoodCardProps) {
   };
 
   const handleClosingCardAnimationEnd = () => {
-    setIsClosing(false);
+    setIsFoodCardClosing(false);
     setIsAddingToMeal(false);
-    setselectedFood(undefined);
+    setSelectedFood(undefined);
   };
 
   return (
     <div
-      className={`${styles.foodCard} ${isClosing ? styles.isClosingAnimation : ''}`}
-      onAnimationEnd={isClosing ? handleClosingCardAnimationEnd : undefined}
+      className={`${styles.foodCard} ${isFoodCardClosing ? styles.isFoodCardClosingnimation : ''}`}
+      onAnimationEnd={isFoodCardClosing ? handleClosingCardAnimationEnd : undefined}
     >
       <div className={styles.header}>
-        <span onClick={() => setIsClosing(!isClosing)}>X</span>
+        <span onClick={() => setIsFoodCardClosing(!isFoodCardClosing)}>X</span>
         <h3 className={styles.foodName}>{food.name.toUpperCase()}</h3>
       </div>
 

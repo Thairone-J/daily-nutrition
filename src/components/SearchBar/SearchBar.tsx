@@ -3,8 +3,12 @@ import { useState } from 'react';
 import { useFoods } from '@/context/FoodsContext';
 import styles from './SearchBar.module.scss';
 
-export default function SearchBar() {
-  const { foods, setselectedFood } = useFoods();
+type SearchBarProps = {
+  setIsFoodCardClosing: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
+export default function SearchBar({ setIsFoodCardClosing }: SearchBarProps) {
+  const { foods, setSelectedFood } = useFoods();
   const [searchTerm, setSearchTerm] = useState('');
   const [filteredFoods, setFilteredFoods] = useState(foods);
 
@@ -14,7 +18,7 @@ export default function SearchBar() {
 
     if (!term) {
       // Hide food stats if search bar is empty
-      setselectedFood(undefined);
+      setIsFoodCardClosing(true);
     }
 
     const results = foods.filter((food) => food.name.toLowerCase().includes(term));
@@ -34,7 +38,7 @@ export default function SearchBar() {
       {filteredFoods.length > 0 && searchTerm !== '' ? (
         <ul className={styles.list}>
           {filteredFoods.slice(0, 20).map((food) => (
-            <li key={food.id} onClick={() => setselectedFood({ ...food })}>
+            <li key={food.id} onClick={() => setSelectedFood({ ...food })}>
               {food.name}
             </li>
           ))}

@@ -114,9 +114,7 @@
       cursor: pointer;
       filter: invert(100%);
       position: absolute;
-      width: 100%
- 
-     
+      width: 100%;
     }
 
     .dateMealInputWrapper {
@@ -145,7 +143,7 @@
   }
 }
 
-.isClosingAnimation {
+.isFoodCardClosingnimation {
   animation: slideDown 500ms ease forwards;
 }
 

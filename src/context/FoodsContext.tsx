@@ -15,7 +15,7 @@ export type Food = {
 type FoodsContextType = {
   foods: Food[];
   selectedFood?: Food;
-  setselectedFood: React.Dispatch<React.SetStateAction<Food | undefined>>;
+  setSelectedFood: React.Dispatch<React.SetStateAction<Food | undefined>>;
 };
 
 const FoodsContext = createContext<FoodsContextType | undefined>(undefined);
@@ -33,10 +33,10 @@ export function FoodsProvider({ children }: { children: ReactNode }) {
   });
 
   const [foods, setFoods] = useState<Food[]>(foodsNutrientsPerGram);
-  const [selectedFood, setselectedFood] = useState<Food>();
+  const [selectedFood, setSelectedFood] = useState<Food>();
 
   return (
-    <FoodsContext.Provider value={{ foods, selectedFood, setselectedFood }}>
+    <FoodsContext.Provider value={{ foods, selectedFood, setSelectedFood }}>
       {children}
     </FoodsContext.Provider>
   );
