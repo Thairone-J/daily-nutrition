@@ -4,7 +4,7 @@ import { useFoods } from '@/context/FoodsContext';
 import styles from './SearchBar.module.scss';
 
 export default function SearchBar() {
-  const { foods } = useFoods();
+  const { foods, setselectedFood } = useFoods();
   const [searchTerm, setSearchTerm] = useState('');
   const [filteredFoods, setFilteredFoods] = useState(foods);
 
@@ -20,8 +20,6 @@ export default function SearchBar() {
     const results = foods.filter((food) => food.name.toLowerCase().includes(term));
     setFilteredFoods(results);
   };
-
-  const { setselectedFood } = useFoods();
 
   return (
     <div className={styles.searchWrapper}>
