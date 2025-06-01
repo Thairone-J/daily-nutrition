@@ -1,8 +1,7 @@
 'use client';
 
 import styles from './SidePanel.module.scss';
-import Header from './GoalsStats/Header';
-import GoalsStats from './GoalsStats/GoalsStats';
+import UserNutritionalGoals from './UserNutritionalGoals/UserNutrionalGoals';
 import MealsList from '../MealCardList/MealCardList';
 import Button from '../UI/Button/Button';
 import { useMeals } from '@/context/MealsContext';
@@ -15,9 +14,8 @@ export default function SidePanel() {
 
   return (
     <div className={styles.wrapper}>
-      <div className={styles.goalsWrapper}>
-        <Header />
-        <GoalsStats />
+      <div className={styles.userNutritionalGoalsSection}>
+        <UserNutritionalGoals />
       </div>
       <div className={styles.buttonWrapper}>
         <Button
@@ -35,7 +33,7 @@ export default function SidePanel() {
         </Button>
       </div>
 
-      <div className={styles.mealsWrapper}>
+      <div className={styles.mealsListSection}>
         <MealsList />
       </div>
     </div>
