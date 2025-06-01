@@ -1,6 +1,6 @@
 'use client';
 import { useMeals } from '@/context/MealsContext';
-import MealCard from '../MealCard/MealCard';
+import MealCard from './MealCard/MealCard';
 import styles from './MealCardList.module.scss';
 
 export default function MealsList() {

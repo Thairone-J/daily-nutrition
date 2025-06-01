@@ -2,7 +2,7 @@
 
 import styles from './SidePanel.module.scss';
 import UserNutritionalGoals from './UserNutritionalGoals/UserNutrionalGoals';
-import MealsList from '../MealCardList/MealCardList';
+import MealsList from './MealCardList/MealCardList';
 import Button from '../UI/Button/Button';
 import { useMeals } from '@/context/MealsContext';
 import { getTodayDateFormated } from '@/utils/dateUtils';

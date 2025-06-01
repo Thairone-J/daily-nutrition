@@ -1,4 +1,4 @@
-import Icon from '../UI/Icon/Icon';
+import Icon from '@/components/UI/Icon/Icon';
 import styles from './MealCard.module.scss';
 import { Meal, useMeals } from '@/context/MealsContext';
 import { useState, KeyboardEvent } from 'react';
