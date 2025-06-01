@@ -6,7 +6,7 @@ import { getTodayDateFormated } from '@/utils/dateUtils';
 
 type FoodCardProps = {
   food: Food;
-  isFoodCardClosing: Boolean;
+  isFoodCardClosing: boolean;
   setIsFoodCardClosing: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
