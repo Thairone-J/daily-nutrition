@@ -6,14 +6,12 @@ import GoalsStats from './GoalsStats/GoalsStats';
 import MealsList from '../MealCardList/MealCardList';
 import Button from '../UI/Button/Button';
 import { useMeals } from '@/context/MealsContext';
+import { getTodayDateFormated } from '@/utils/dateUtils';
 
 export default function SidePanel() {
-  const { meals, addMeal } = useMeals();
-  const date = new Date();
-  const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, '0');
-  const day = String(date.getDate()).padStart(2, '0');
-  const today = `${year}-${month}-${day}`;
+  const { addMeal } = useMeals();
+
+  const today = getTodayDateFormated();
 
   return (
     <div className={styles.wrapper}>

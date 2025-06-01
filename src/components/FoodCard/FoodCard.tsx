@@ -2,17 +2,14 @@ import styles from './FoodCard.module.scss';
 import { useMeals, Meal } from '@/context/MealsContext';
 import { useFoods, Food } from '@/context/FoodsContext';
 import { useState } from 'react';
+import { getTodayDateFormated } from '@/utils/dateUtils';
 
 type FoodCardProps = {
   food: Food;
 };
 
 export default function FoodCard({ food }: FoodCardProps) {
-  const date = new Date();
-  const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, '0');
-  const day = String(date.getDate()).padStart(2, '0');
-  const today = `${year}-${month}-${day}`;
+  const today = getTodayDateFormated();
 
   const [selectedDate, setSelectedDate] = useState<string>(today);
   const [isClosing, setIsClosing] = useState(false);
