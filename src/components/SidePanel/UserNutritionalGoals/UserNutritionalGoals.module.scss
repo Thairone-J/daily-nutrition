@@ -42,20 +42,37 @@
 
   background-color: transparent;
   color: #ffffff;
-  border-bottom: 1px solid #42484d;
-  border-right: none;
-  text-align: center;
-  padding: 10px;
-  width: 100%;
+  border: none;
+  cursor: pointer;
+  text-align: start;
+  padding: 5px;
+
   font-size: 0.9rem;
   &::placeholder {
     color: #ffffff9d;
   }
 
   &::-webkit-calendar-picker-indicator {
-    cursor: pointer;
-    filter: invert(100%);
-    position: absolute;
+    display: none;
+    // cursor: pointer;
+    // filter: invert(100%);
+  }
+}
+
+.dateTimeWrapper {
+  border-bottom: 1px solid #42484d;
+
+  display: flex;
+
+  .dayHour {
+    color: #ffffff;
+
     width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: end;
+    font-size: 0.8rem;
+    padding-right: 5px;
   }
 }

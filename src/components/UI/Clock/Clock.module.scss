@@ -1,0 +1,15 @@
+.clockContainer {
+  margin-left: 2px;
+  display: flex;
+  // justify-content: center;
+  // align-items: center;
+  // padding: 10px;
+  background-color: transparent;
+  border-radius: 5px;
+  box-shadow: none;
+}
+
+.time {
+  font-weight: bold;
+  font-family: monospace;
+}

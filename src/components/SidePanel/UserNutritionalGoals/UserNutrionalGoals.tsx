@@ -1,23 +1,55 @@
 import styles from './UserNutritionalGoals.module.scss';
 import ProgressBar from './ProgressBar';
-import { getTodayDateFormated } from '@/utils/dateUtils';
-import { useState } from 'react';
+import Clock from '@/components/UI/Clock/Clock';
 
-export default function UserNutritionalGoals(calorieGoal: Number, consumedCalories: Number) {
-  const today = getTodayDateFormated();
-  const [selectedDate, setSelectedDate] = useState<string>(today);
+import { getDateParsed } from '@/utils/dateUtils';
+import { useRef } from 'react';
+
+type props = {
+  selectedDate: string;
+  setSelectedDate: React.Dispatch<React.SetStateAction<string>>;
+};
+
+export default function UserNutritionalGoals({ selectedDate, setSelectedDate }: props) {
+  const currenteDateISO = new Date().toISOString();
+  const { date: currentDateParsed } = getDateParsed(currenteDateISO);
+  const { date: selectedDateParsed } = getDateParsed(selectedDate);
+
+  const dateInputRef = useRef<HTMLInputElement>(null);
   return (
     <div className={styles.wrapper}>
-      <div className={styles.dateSelect}>
+      <div className={styles.dateTimeWrapper}>
         <input
           type="date"
-          defaultValue={today}
+          ref={dateInputRef}
+          value={getDateParsed(selectedDate).date}
           className={styles.dateInput}
           onChange={(e) => {
-            setSelectedDate(e.target.value);
+            if (e.target.value > currentDateParsed) {
+              alert('Não é possível adicionar refeições futuras.');
+              return;
+            }
+
+            if (e.target.value === currentDateParsed) {
+              setSelectedDate(currenteDateISO);
+            } else {
+              const previousDateIso = new Date(`${e.target.value}T12:00:00`).toISOString();
+              setSelectedDate(previousDateIso);
+            }
+
             e.target.blur();
           }}
+          onClick={() => dateInputRef.current?.showPicker()}
         />
+        <div className={styles.dayHour}>
+          {selectedDateParsed === currentDateParsed ? (
+            <>
+              {`${getDateParsed(currenteDateISO).weekday},`} <Clock />
+            </>
+          ) : (
+            <span>Visualisando refeições anteriores</span>
+          )}
+        </div>
       </div>
       <div className={styles.header}>
         <img src="/pp.jpg" alt="" />
