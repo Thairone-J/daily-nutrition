@@ -1,13 +1,13 @@
 import styles from './ProgressBar.module.scss';
 
-type ProgressBar = {
+type ProgressBarProps = {
   label: string;
   value: number;
   goal: number;
   unit?: string;
 };
 
-export default function ProgressBar({ label, value, goal, unit = 'g' }: ProgressBar) {
+export default function ProgressBar({ label, value, goal, unit = 'g' }: ProgressBarProps) {
   const percentage = Math.min((value / goal) * 100, 100);
 
   return (

@@ -5,12 +5,12 @@ import Clock from '@/components/UI/Clock/Clock';
 import { getDateParsed } from '@/utils/dateUtils';
 import { useRef } from 'react';
 
-type props = {
+type UserNutritionalGoalsProps = {
   selectedDate: string;
   setSelectedDate: React.Dispatch<React.SetStateAction<string>>;
 };
 
-export default function UserNutritionalGoals({ selectedDate, setSelectedDate }: props) {
+export default function UserNutritionalGoals({ selectedDate, setSelectedDate }: UserNutritionalGoalsProps) {
   const currenteDateISO = new Date().toISOString();
   const { date: currentDateParsed } = getDateParsed(currenteDateISO);
   const { date: selectedDateParsed } = getDateParsed(selectedDate);

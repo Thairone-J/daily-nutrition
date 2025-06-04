@@ -4,11 +4,11 @@ import MealCard from './MealCard/MealCard';
 import styles from './MealCardList.module.scss';
 import { getDateParsed } from '@/utils/dateUtils';
 
-type props = {
+type MealCardListProps = {
   selectedDate: string;
 };
 
-export default function MealsList({ selectedDate }: props) {
+export default function MealsList({ selectedDate }: MealCardListProps) {
   const { meals } = useMeals();
 
   const { date: selectedDateParsed } = getDateParsed(selectedDate);
