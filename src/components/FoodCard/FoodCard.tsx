@@ -1,8 +1,8 @@
 import styles from './FoodCard.module.scss';
 import { useMeals, Meal } from '@/context/MealsContext';
 import { useFoods, Food } from '@/context/FoodsContext';
-import { useState } from 'react';
-import { getTodayDateFormated } from '@/utils/dateUtils';
+import { useState, useRef } from 'react';
+import { getDateParsed } from '@/utils/dateUtils';
 
 type FoodCardProps = {
   food: Food;
@@ -11,13 +11,15 @@ type FoodCardProps = {
 };
 
 export default function FoodCard({ food, isFoodCardClosing, setIsFoodCardClosing }: FoodCardProps) {
-  const today = getTodayDateFormated();
+  const currentDateISO = new Date().toISOString();
+  const { date: today } = getDateParsed(currentDateISO);
 
   const [selectedDate, setSelectedDate] = useState<string>(today);
   const [isAddingToMeal, setIsAddingToMeal] = useState(false);
   const [meal, setMeal] = useState<Meal | null>(null);
   const [inputFoodQuantity, setInputFoodQuantity] = useState(0);
   const [hasQuantity, setHasQuantity] = useState<boolean | 'initial'>('initial');
+  const dateInputRef = useRef<HTMLInputElement>(null);
 
   const { meals, addFoodToMeal } = useMeals();
   const { setSelectedFood } = useFoods();
@@ -122,25 +124,29 @@ export default function FoodCard({ food, isFoodCardClosing, setIsFoodCardClosing
           <div className={styles.dateMealInputWrapper}>
             <input
               type="date"
+              ref={dateInputRef}
               defaultValue={today}
               className={styles.dateInput}
+              onClick={() => dateInputRef.current?.showPicker()}
               onChange={(e) => {
                 setSelectedDate(e.target.value);
+                // This indeed is saving a parsed date (YYYY/MM/DD) , don't need ISO date for this component.
                 e.target.blur();
               }}
             />
             <select
               name="selectMeal"
-              id="selectMeal"
+              className={styles.selectMeal}
               onChange={handleSelectMeal}
               defaultValue={'default'}
             >
               <option value="default" disabled hidden>
                 Escolher refeição
               </option>
-              {meals.filter((m) => m.createdAt === selectedDate).length > 0 ? (
+              {meals.filter((m) => m.createdAt && getDateParsed(m.createdAt).date === selectedDate)
+                .length > 0 ? (
                 meals
-                  .filter((m) => m.createdAt === selectedDate)
+                  .filter((m) => m.createdAt && getDateParsed(m.createdAt).date === selectedDate)
                   .map((m) => (
                     <option key={m.id} value={m.id}>
                       {m.title}

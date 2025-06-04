@@ -110,11 +110,15 @@
         -moz-appearance: textfield;
       }
     }
-    .dateInput::-webkit-calendar-picker-indicator {
+    .dateInput {
       cursor: pointer;
-      filter: invert(100%);
-      position: absolute;
-      width: 100%;
+      &::-webkit-calendar-picker-indicator {
+        // display: none;
+        cursor: pointer;
+        filter: invert(100%);
+        // position: absolute;
+        // width: 100%;
+      }
     }
 
     .dateMealInputWrapper {
@@ -123,7 +127,8 @@
       flex-direction: row;
       gap: 10px;
 
-      select {
+      .selectMeal {
+        cursor: pointer;
         width: 100%;
         background-color: transparent;
         color: #f8eaea;
@@ -132,7 +137,6 @@
         padding: 10px;
         width: 100%;
         font: 0.9rem;
-
         border-radius: 5px;
         option {
           background-color: #111722;
