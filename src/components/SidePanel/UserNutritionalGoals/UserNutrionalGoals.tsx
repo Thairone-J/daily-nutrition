@@ -1,6 +1,7 @@
 import styles from './UserNutritionalGoals.module.scss';
 import ProgressBar from './ProgressBar';
 import Clock from '@/components/UI/Clock/Clock';
+import { useMealsForSelectedDate } from '@/utils/hooks/useMealsForSelectedDate';
 
 import { getDateParsed } from '@/utils/dateUtils';
 import { useRef } from 'react';
@@ -15,10 +16,45 @@ export default function UserNutritionalGoals({
   setSelectedDate,
 }: UserNutritionalGoalsProps) {
   const currentDateISO = new Date().toISOString();
+
   const { date: currentDateParsed } = getDateParsed(currentDateISO);
   const { date: selectedDateParsed } = getDateParsed(selectedDate);
 
+  const mealsForSelectedDate = useMealsForSelectedDate(selectedDate);
+
   const dateInputRef = useRef<HTMLInputElement>(null);
+
+  const kcalSum = Math.floor(
+    mealsForSelectedDate
+      .flatMap((meal) => meal.foods.map((food) => food.kcal))
+      .reduce((sum, kcal) => sum + kcal, 0)
+  );
+
+  const carbohydratesConsumed = Math.floor(
+    mealsForSelectedDate
+      .flatMap((meal) => meal.foods.map((food) => food.carbohydrates))
+      .reduce((sum, carbs) => sum + carbs, 0)
+  );
+
+  const proteinConsumed = Math.floor(
+    mealsForSelectedDate
+      .flatMap((meal) => meal.foods.map((food) => food.protein))
+      .reduce((sum, protein) => sum + protein, 0)
+  );
+
+  const lipidsConsumed = Math.floor(
+    mealsForSelectedDate
+      .flatMap((meal) => meal.foods.map((food) => food.lipids))
+      .reduce((sum, lipid) => sum + lipid, 0)
+  );
+
+  const userGoals = {
+    kcal: 2200,
+    carbohydrates: 170,
+    protein: 210,
+    lipids: 100,
+  };
+
   return (
     <div className={styles.wrapper}>
       <div className={styles.dateTimeWrapper}>
@@ -59,14 +95,19 @@ export default function UserNutritionalGoals({
         <div className={styles.kcalGoal}>
           <h2>Metas nutricionais</h2>
           <p>
-            <span className={styles.consumedCalories}>{}</span> de {} calorias 🔥
+            <span className={styles.consumedCalories}>{kcalSum}</span> de {userGoals.kcal} calorias
+            🔥
           </p>
         </div>
       </div>
       <div className={styles.goalsProgress}>
-        <ProgressBar label="Carboidratos" value={250} goal={250} />
-        <ProgressBar label="Proteínas" value={100} goal={250} />
-        <ProgressBar label="Gorduras" value={100} goal={250} />
+        <ProgressBar
+          label="Carboidratos"
+          value={carbohydratesConsumed}
+          goal={userGoals.carbohydrates}
+        />
+        <ProgressBar label="Proteínas" value={proteinConsumed} goal={userGoals.protein} />
+        <ProgressBar label="Gorduras" value={lipidsConsumed} goal={userGoals.lipids} />
       </div>
     </div>
   );

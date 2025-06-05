@@ -116,7 +116,7 @@ export default function MealCard(meal: Meal) {
 
             <div className={styles.foodName}>{food.name.split(',', 1)}</div>
 
-            <div className={styles.stats}>{isNaN(food.kcal) ? 0 : food.kcal}kcal</div>
+            <div className={styles.stats}>{isNaN(food.kcal) ? 0 : Math.round(food.kcal)}kcal</div>
           </div>
         ))}
       </div>

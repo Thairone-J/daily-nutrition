@@ -1,21 +1,15 @@
 'use client';
-import { useMeals } from '@/context/MealsContext';
 import MealCard from './MealCard/MealCard';
 import styles from './MealCardList.module.scss';
-import { getDateParsed } from '@/utils/dateUtils';
+
+import { useMealsForSelectedDate } from '@/utils/hooks/useMealsForSelectedDate';
 
 type MealCardListProps = {
   selectedDate: string;
 };
 
 export default function MealsList({ selectedDate }: MealCardListProps) {
-  const { meals } = useMeals();
-
-  const { date: selectedDateParsed } = getDateParsed(selectedDate);
-
-  const mealsForSelectedDate = meals.filter(
-    (meal) => meal.createdAt && getDateParsed(meal.createdAt).date === selectedDateParsed
-  );
+  const mealsForSelectedDate = useMealsForSelectedDate(selectedDate);
 
   return (
     <div className={styles.wrapper}>
