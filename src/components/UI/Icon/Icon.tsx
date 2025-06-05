@@ -16,7 +16,7 @@ export default function Icon({ name, size = 24, color = 'currentColor', onClick 
 
   return (
     <svg
-      className={styles.icon}
+      className={`${styles.icon} ${styles[name]}`}
       width={size}
       height={size}
       fill={color}

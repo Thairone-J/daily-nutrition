@@ -1,3 +1,15 @@
 .icon {
   cursor: pointer;
+  transition: color 0.3s ease;
+}
+.delete {
+  &:hover {
+    color: #dd2e44;
+  }
+}
+
+.save {
+  &:hover {
+    color: #5c913b;
+  }
 }

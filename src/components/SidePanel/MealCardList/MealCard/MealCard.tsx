@@ -5,7 +5,7 @@ import { useState, KeyboardEvent } from 'react';
 import { Food } from '@/context/FoodsContext';
 
 export default function MealCard(meal: Meal) {
-  const { updateMealTitle, deleteMeal, updateFood } = useMeals();
+  const { updateMealTitle, deleteMeal, updateFood, removeFoodFromMeal } = useMeals();
 
   const [isEditing, setIsEditing] = useState(false);
   const [mealTitle, setMealTitle] = useState('');
@@ -47,6 +47,17 @@ export default function MealCard(meal: Meal) {
       updateFood(meal.id, updatedFood);
     }
   };
+
+  const totalMacros = meal.foods.reduce(
+    (totals, food) => {
+      totals.carbohydrates += food.carbohydrates;
+      totals.protein += food.protein;
+      totals.lipids += food.lipids;
+      totals.kcal += food.kcal;
+      return totals;
+    },
+    { carbohydrates: 0, protein: 0, lipids: 0, kcal: 0 }
+  );
   return (
     <div className={styles.card}>
       <div className={styles.header}>
@@ -101,13 +112,15 @@ export default function MealCard(meal: Meal) {
           <div className={styles.wrapper} key={food.id}>
             <div className={styles.inputWrapper}>
               {isEditing ? (
-                <input
-                  type="number"
-                  className={styles.inputValue}
-                  onKeyDown={handleInputKeyDown}
-                  placeholder={food.quantity.toString()}
-                  onChange={(e) => handleQuantityChange(food, e)}
-                />
+                <>
+                  <input
+                    type="number"
+                    className={styles.inputValue}
+                    onKeyDown={handleInputKeyDown}
+                    placeholder={food.quantity.toString()}
+                    onChange={(e) => handleQuantityChange(food, e)}
+                  />
+                </>
               ) : (
                 food.quantity
               )}
@@ -116,9 +129,32 @@ export default function MealCard(meal: Meal) {
 
             <div className={styles.foodName}>{food.name.split(',', 1)}</div>
 
-            <div className={styles.stats}>{isNaN(food.kcal) ? 0 : Math.round(food.kcal)}kcal</div>
+            {isEditing ? (
+              <div
+                className={styles.removeFood}
+                onClick={() => {
+                  removeFoodFromMeal(meal.id, food.id);
+                }}
+              >
+                X
+              </div>
+            ) : (
+              <div className={styles.stats}>{isNaN(food.kcal) ? 0 : Math.round(food.kcal)}kcal</div>
+            )}
           </div>
         ))}
+      </div>
+
+      <div className={styles.totalMacrosKcal}>
+        <div className={styles.totalMacros}>
+          <span>Carbohydrates: {Math.floor(totalMacros.carbohydrates)}g</span>
+          <span>Protein: {Math.floor(totalMacros.protein)}g</span>
+          <span>Lipids: {Math.floor(totalMacros.lipids)}g</span>
+        </div>
+
+        <div className={styles.kcal}>
+          <span>{Math.floor(totalMacros.kcal)}kcal</span>
+        </div>
       </div>
     </div>
   );
