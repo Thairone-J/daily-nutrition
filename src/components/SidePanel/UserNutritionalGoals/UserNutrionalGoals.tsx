@@ -10,9 +10,12 @@ type UserNutritionalGoalsProps = {
   setSelectedDate: React.Dispatch<React.SetStateAction<string>>;
 };
 
-export default function UserNutritionalGoals({ selectedDate, setSelectedDate }: UserNutritionalGoalsProps) {
-  const currenteDateISO = new Date().toISOString();
-  const { date: currentDateParsed } = getDateParsed(currenteDateISO);
+export default function UserNutritionalGoals({
+  selectedDate,
+  setSelectedDate,
+}: UserNutritionalGoalsProps) {
+  const currentDateISO = new Date().toISOString();
+  const { date: currentDateParsed } = getDateParsed(currentDateISO);
   const { date: selectedDateParsed } = getDateParsed(selectedDate);
 
   const dateInputRef = useRef<HTMLInputElement>(null);
@@ -31,7 +34,7 @@ export default function UserNutritionalGoals({ selectedDate, setSelectedDate }: 
             }
 
             if (e.target.value === currentDateParsed) {
-              setSelectedDate(currenteDateISO);
+              setSelectedDate(currentDateISO);
             } else {
               const previousDateIso = new Date(`${e.target.value}T12:00:00`).toISOString();
               setSelectedDate(previousDateIso);
@@ -44,7 +47,7 @@ export default function UserNutritionalGoals({ selectedDate, setSelectedDate }: 
         <div className={styles.dayHour}>
           {selectedDateParsed === currentDateParsed ? (
             <>
-              {`${getDateParsed(currenteDateISO).weekday},`} <Clock />
+              {`${getDateParsed(currentDateISO).weekday},`} <Clock />
             </>
           ) : (
             <span>Visualisando refeições anteriores</span>
