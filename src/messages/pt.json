@@ -32,6 +32,9 @@
 
   "dashboard": {
     "chooseFood": "O que você comeu?",
+    "carbohydrates_short": "Carbs",
+    "protein_short": "Prot",
+    "lipids_short": "Gord",
     "carbohydrates": "Carboidratos",
     "protein": "Proteínas",
     "lipids": "Gorduras",

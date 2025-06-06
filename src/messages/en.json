@@ -31,6 +31,9 @@
   },
   "dashboard": {
     "chooseFood": "What did you eat?",
+    "carbohydrates_short": "Carbs",
+    "protein_short": "Prot",
+    "lipids_short": "Fats",
     "carbohydrates": "Carbohydrates",
     "protein": "Proteins",
     "lipids": "Fats",

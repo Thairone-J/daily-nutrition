@@ -150,22 +150,24 @@ export default function MealCard(meal: Meal) {
 
       <div className={styles.totalMacrosKcal}>
         <div className={styles.totalMacros}>
-          <span>
-            {t('dashboard.carbohydrates')}
-            {Math.floor(totalMacros.carbohydrates)}g
-          </span>
-          <span>
-            {t('dashboard.protein')}
-            {Math.floor(totalMacros.protein)}g
-          </span>
-          <span>
-            {t('dashboard.lipids')}
-            {Math.floor(totalMacros.lipids)}g
-          </span>
-        </div>
-
-        <div className={styles.kcal}>
-          <span>{Math.floor(totalMacros.kcal)}kcal</span>
+          <div className={styles.nutrientTagsContainer}>
+            <span>
+              {t('dashboard.carbohydrates_short').toLocaleLowerCase()}
+              {': '}
+              {Math.floor(totalMacros.carbohydrates)}g
+            </span>
+            <span>
+              {t('dashboard.protein_short').toLocaleLowerCase()}
+              {': '}
+              {Math.floor(totalMacros.protein)}g
+            </span>
+            <span>
+              {t('dashboard.lipids_short').toLocaleLowerCase()}
+              {': '}
+              {Math.floor(totalMacros.lipids)}g
+            </span>
+            <span>{Math.floor(totalMacros.kcal)}kcal</span>
+          </div>
         </div>
       </div>
     </div>

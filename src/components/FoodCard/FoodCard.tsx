@@ -132,7 +132,7 @@ export default function FoodCard({ food, isFoodCardClosing, setIsFoodCardClosing
               onClick={() => dateInputRef.current?.showPicker()}
               onChange={(e) => {
                 setSelectedDate(e.target.value);
-                // This indeed is saving a parsed date (YYYY/MM/DD) , don't need ISO date for this component.
+                // Don't need ISO date for this component.
                 e.target.blur();
               }}
             />
@@ -167,7 +167,7 @@ export default function FoodCard({ food, isFoodCardClosing, setIsFoodCardClosing
             ? t('dashboard.foodActions.addFoodToNewMeal', { foodFirstName: foodFirstName })
             : t('dashboard.foodActions.addFoodToExistingMeal', {
                 foodFirstName: foodFirstName,
-                mealTitle: meal?.title || t('dashboard.foodActions.aMealDefault'), // <-- Importante: traduzir 'uma refeição' também!
+                mealTitle: meal?.title || t('dashboard.foodActions.aMealDefault'),
               })}
         </button>
       </div>
