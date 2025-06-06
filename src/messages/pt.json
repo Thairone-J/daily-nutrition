@@ -1,4 +1,8 @@
 {
+  "commom": {
+    "of": "de"
+  },
+
   "welcomePage": {
     "description": "Registre refeições, veja as calorias e nutrientes de cada alimento, acompanhe metas e cuide da sua saúde de forma simples e prática.",
     "button": "Registrar refeição",
@@ -24,5 +28,33 @@
       "createAccount": "Não tem conta? Criar conta",
       "signin": "Já tem conta? Fazer login"
     }
+  },
+
+  "dashboard": {
+    "chooseFood": "O que você comeu?",
+    "carbohydrates": "Carboidratos",
+    "protein": "Proteínas",
+    "lipids": "Gorduras",
+    "calories": "calorias",
+    "createMeal": "Criar refeição",
+    "weekdays": {
+      "monday": "Segunda-feira",
+      "tuesday": "Terça-feira",
+      "wednesday": "Quarta-feira",
+      "thursday": "Quinta-feira",
+      "friday": "Sexta-feira",
+      "saturday": "Sábado",
+      "sunday": "Domingo"
+    },
+    "nutritionalGoals": "Metas nutricionais",
+    "viewingPastMeals": "Visualizando refeições anteriores",
+    "searchFoods": "Buscar alimentos",
+    "foodActions": {
+      "addFoodToNewMeal": "Adicionar {foodFirstName} a uma refeição",
+      "addFoodToExistingMeal": "Adicionar {foodFirstName} a {mealTitle}",
+      "aMealDefault": "uma refeição"
+    },
+    "chooseMeal": "Escolha uma refeição",
+    "noMealsRecorded": "Nenhuma refeição registrada"
   }
 }

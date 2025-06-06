@@ -3,8 +3,11 @@ import styles from './MealCard.module.scss';
 import { Meal, useMeals } from '@/context/MealsContext';
 import { useState, KeyboardEvent } from 'react';
 import { Food } from '@/context/FoodsContext';
+import { useTranslations } from 'next-intl';
 
 export default function MealCard(meal: Meal) {
+  const t = useTranslations();
+
   const { updateMealTitle, deleteMeal, updateFood, removeFoodFromMeal } = useMeals();
 
   const [isEditing, setIsEditing] = useState(false);
@@ -147,9 +150,18 @@ export default function MealCard(meal: Meal) {
 
       <div className={styles.totalMacrosKcal}>
         <div className={styles.totalMacros}>
-          <span>Carbohydrates: {Math.floor(totalMacros.carbohydrates)}g</span>
-          <span>Protein: {Math.floor(totalMacros.protein)}g</span>
-          <span>Lipids: {Math.floor(totalMacros.lipids)}g</span>
+          <span>
+            {t('dashboard.carbohydrates')}
+            {Math.floor(totalMacros.carbohydrates)}g
+          </span>
+          <span>
+            {t('dashboard.protein')}
+            {Math.floor(totalMacros.protein)}g
+          </span>
+          <span>
+            {t('dashboard.lipids')}
+            {Math.floor(totalMacros.lipids)}g
+          </span>
         </div>
 
         <div className={styles.kcal}>

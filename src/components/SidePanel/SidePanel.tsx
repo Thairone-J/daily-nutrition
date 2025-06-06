@@ -7,8 +7,11 @@ import Button from '../UI/Button/Button';
 import { useMeals } from '@/context/MealsContext';
 import { getDateParsed } from '@/utils/dateUtils';
 import { useState } from 'react';
+import { useTranslations } from 'next-intl';
 
 export default function SidePanel() {
+  const t = useTranslations();
+
   const { addMeal } = useMeals();
 
   const currentDateISO = new Date().toISOString();
@@ -60,7 +63,7 @@ export default function SidePanel() {
       </div>
       <div className={styles.buttonWrapper}>
         <Button variant="outline" onClick={handleAddMealClick}>
-          Criar refeição
+          {t('dashboard.createMeal')}
         </Button>
       </div>
 

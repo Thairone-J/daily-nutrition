@@ -2,6 +2,7 @@ import styles from './UserNutritionalGoals.module.scss';
 import ProgressBar from './ProgressBar';
 import Clock from '@/components/UI/Clock/Clock';
 import { useMealsForSelectedDate } from '@/utils/hooks/useMealsForSelectedDate';
+import { useTranslations } from 'next-intl';
 
 import { getDateParsed } from '@/utils/dateUtils';
 import { useRef } from 'react';
@@ -15,6 +16,8 @@ export default function UserNutritionalGoals({
   selectedDate,
   setSelectedDate,
 }: UserNutritionalGoalsProps) {
+  const t = useTranslations();
+
   const currentDateISO = new Date().toISOString();
 
   const { date: currentDateParsed } = getDateParsed(currentDateISO);
@@ -83,31 +86,36 @@ export default function UserNutritionalGoals({
         <div className={styles.dayHour}>
           {selectedDateParsed === currentDateParsed ? (
             <>
-              {`${getDateParsed(currentDateISO).weekday},`} <Clock />
+              {t(`dashboard.weekdays.${getDateParsed(currentDateISO).weekday.toLocaleLowerCase()}`)}
+              {','} <Clock />
             </>
           ) : (
-            <span>Visualisando refeições anteriores</span>
+            <span>{t('dashboard.viewingPastMeals')}</span>
           )}
         </div>
       </div>
       <div className={styles.header}>
         <img src="/pp.jpg" alt="" />
         <div className={styles.kcalGoal}>
-          <h2>Metas nutricionais</h2>
+          <h2>{t('dashboard.nutritionalGoals')}</h2>
           <p>
-            <span className={styles.consumedCalories}>{kcalSum}</span> de {userGoals.kcal} calorias
-            🔥
+            <span className={styles.consumedCalories}>{kcalSum}</span> {t('commom.of')}{' '}
+            {userGoals.kcal} {t('dashboard.calories')} 🔥
           </p>
         </div>
       </div>
       <div className={styles.goalsProgress}>
         <ProgressBar
-          label="Carboidratos"
+          label={t('dashboard.carbohydrates')}
           value={carbohydratesConsumed}
           goal={userGoals.carbohydrates}
         />
-        <ProgressBar label="Proteínas" value={proteinConsumed} goal={userGoals.protein} />
-        <ProgressBar label="Gorduras" value={lipidsConsumed} goal={userGoals.lipids} />
+        <ProgressBar
+          label={t('dashboard.protein')}
+          value={proteinConsumed}
+          goal={userGoals.protein}
+        />
+        <ProgressBar label={t('dashboard.lipids')} value={lipidsConsumed} goal={userGoals.lipids} />
       </div>
     </div>
   );

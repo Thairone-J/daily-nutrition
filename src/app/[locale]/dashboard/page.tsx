@@ -6,8 +6,11 @@ import SearchBar from '@/components/SearchBar/SearchBar';
 import { useFoods } from '@/context/FoodsContext';
 import FoodCard from '@/components/FoodCard/FoodCard';
 import { useState } from 'react';
+import { useTranslations } from 'next-intl';
 
 export default function Dashboard() {
+  const t = useTranslations();
+
   const { selectedFood } = useFoods();
   const [isFoodCardClosing, setIsFoodCardClosing] = useState(false);
 
@@ -18,7 +21,7 @@ export default function Dashboard() {
       </div>
       <div className={styles.searchArea}>
         <div className={styles.searchBarWrapper}>
-          <h2>Escolha um Alimento</h2>
+          <h2>{t('dashboard.chooseFood')}</h2>
           <SearchBar setIsFoodCardClosing={setIsFoodCardClosing} />
         </div>
         <div className={styles.currentFoodDisplayArea}>

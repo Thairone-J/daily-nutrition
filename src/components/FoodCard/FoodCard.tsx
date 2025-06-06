@@ -3,6 +3,7 @@ import { useMeals, Meal } from '@/context/MealsContext';
 import { useFoods, Food } from '@/context/FoodsContext';
 import { useState, useRef } from 'react';
 import { getDateParsed } from '@/utils/dateUtils';
+import { useTranslations } from 'next-intl';
 
 type FoodCardProps = {
   food: Food;
@@ -11,6 +12,7 @@ type FoodCardProps = {
 };
 
 export default function FoodCard({ food, isFoodCardClosing, setIsFoodCardClosing }: FoodCardProps) {
+  const t = useTranslations();
   const currentDateISO = new Date().toISOString();
   const { date: today } = getDateParsed(currentDateISO);
 
@@ -24,7 +26,7 @@ export default function FoodCard({ food, isFoodCardClosing, setIsFoodCardClosing
   const { meals, addFoodToMeal } = useMeals();
   const { setSelectedFood } = useFoods();
 
-  const foodFirstName = food.name.split(',', 1);
+  const foodFirstName = food.name.split(',', 1)[0];
 
   const handleAddFoodToMeal = () => {
     if (inputFoodQuantity === 0) {
@@ -81,21 +83,21 @@ export default function FoodCard({ food, isFoodCardClosing, setIsFoodCardClosing
           kcal
         </span>
         <span>
-          Proteína:
+          {`${t('dashboard.protein')}:`}
           {inputFoodQuantity > 0
             ? Number((food.protein * inputFoodQuantity).toFixed(2))
             : Number((food.protein * 100).toFixed(2))}
           g
         </span>
         <span>
-          Carboidrato:
+          {`${t('dashboard.carbohydrates')}:`}
           {inputFoodQuantity > 0
             ? Number((food.carbohydrates * inputFoodQuantity).toFixed(2))
             : Number((food.carbohydrates * 100).toFixed(2))}
           g
         </span>
         <span className={styles.lipid}>
-          Gordura:
+          {`${t('dashboard.lipids')}:`}
           {inputFoodQuantity > 0
             ? Number((food.lipids * inputFoodQuantity).toFixed(2))
             : Number((food.lipids * 100).toFixed(2))}
@@ -141,7 +143,7 @@ export default function FoodCard({ food, isFoodCardClosing, setIsFoodCardClosing
               defaultValue={'default'}
             >
               <option value="default" disabled hidden>
-                Escolher refeição
+                {t('dashboard.chooseMeal')}
               </option>
               {meals.filter((m) => m.createdAt && getDateParsed(m.createdAt).date === selectedDate)
                 .length > 0 ? (
@@ -154,7 +156,7 @@ export default function FoodCard({ food, isFoodCardClosing, setIsFoodCardClosing
                   ))
               ) : (
                 <option value="none" disabled>
-                  Nenhuma refeição registrada
+                  {t('dashboard.noMealsRecorded')}
                 </option>
               )}
             </select>
@@ -162,8 +164,11 @@ export default function FoodCard({ food, isFoodCardClosing, setIsFoodCardClosing
         ) : null}
         <button onClick={handleAddFoodToMeal}>
           {!isAddingToMeal
-            ? `Adicionar ${foodFirstName} a uma refeição`
-            : `Adicionar ${foodFirstName} a ${meal?.title || 'uma refeição'}`}
+            ? t('dashboard.foodActions.addFoodToNewMeal', { foodFirstName: foodFirstName })
+            : t('dashboard.foodActions.addFoodToExistingMeal', {
+                foodFirstName: foodFirstName,
+                mealTitle: meal?.title || t('dashboard.foodActions.aMealDefault'), // <-- Importante: traduzir 'uma refeição' também!
+              })}
         </button>
       </div>
     </div>

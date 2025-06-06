@@ -2,12 +2,14 @@
 import { useState } from 'react';
 import { useFoods } from '@/context/FoodsContext';
 import styles from './SearchBar.module.scss';
+import { useTranslations } from 'next-intl';
 
 type SearchBarProps = {
   setIsFoodCardClosing: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export default function SearchBar({ setIsFoodCardClosing }: SearchBarProps) {
+  const t = useTranslations();
   const { foods, setSelectedFood } = useFoods();
   const [searchTerm, setSearchTerm] = useState('');
   const [filteredFoods, setFilteredFoods] = useState(foods);
@@ -29,7 +31,7 @@ export default function SearchBar({ setIsFoodCardClosing }: SearchBarProps) {
     <div className={styles.searchWrapper}>
       <input
         type="search"
-        placeholder="Buscar alimentos..."
+        placeholder={`${t('dashboard.searchFoods')}...`}
         className={styles.searchBar}
         value={searchTerm}
         onChange={handleTyping}

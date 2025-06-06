@@ -1,4 +1,8 @@
 {
+  "commom": {
+    "of": "of"
+  },
+
   "welcomePage": {
     "description": "Track meals, see calories and nutrients of each food, follow your goals and take care of your health in a simple and practical way.",
     "button": "Track a meal",
@@ -24,5 +28,32 @@
       "createAccount": "Don't have an account? Sign up",
       "signin": "Already have an account? Log in"
     }
+  },
+  "dashboard": {
+    "chooseFood": "What did you eat?",
+    "carbohydrates": "Carbohydrates",
+    "protein": "Proteins",
+    "lipids": "Fats",
+    "calories": "calories",
+    "createMeal": "Create meal",
+    "weekdays": {
+      "monday": "Monday",
+      "tuesday": "Tuesday",
+      "wednesday": "Wednesday",
+      "thursday": "Thursday",
+      "friday": "Friday",
+      "saturday": "Saturday",
+      "sunday": "Sunday"
+    },
+    "nutritionalGoals": "Nutritional Goals",
+    "viewingPastMeals": "Viewing past meals",
+    "searchFoods": "Search foods",
+    "foodActions": {
+      "addFoodToNewMeal": "Add {foodFirstName} to a meal",
+      "addFoodToExistingMeal": "Add {foodFirstName} to {mealTitle}",
+      "aMealDefault": "a meal"
+    },
+    "chooseMeal": "Choose a meal",
+    "noMealsRecorded": "No meals recorded"
   }
 }
