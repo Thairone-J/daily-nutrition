@@ -14,16 +14,26 @@ export default function SearchBar({ setIsFoodCardClosing }: SearchBarProps) {
   const [searchTerm, setSearchTerm] = useState('');
   const [filteredFoods, setFilteredFoods] = useState(foods);
 
+  const normalizeString = (str: string) => {
+    return str
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .toLowerCase();
+  };
   const handleTyping = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const term = event.target.value.toLowerCase();
-    setSearchTerm(term);
+    const currentTerm = event.target.value;
+    setSearchTerm(currentTerm);
 
-    if (!term) {
-      // Hide food stats if search bar is empty
+    if (!currentTerm.trim()) {
+      setFilteredFoods([]);
       setIsFoodCardClosing(true);
+      return;
     }
 
-    const results = foods.filter((food) => food.name.toLowerCase().includes(term));
+    const normalizedTerm = normalizeString(currentTerm);
+
+    const results = foods.filter((food) => normalizeString(food.name).includes(normalizedTerm));
+
     setFilteredFoods(results);
   };
 
