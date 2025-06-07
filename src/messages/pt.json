@@ -57,7 +57,9 @@
       "addFoodToExistingMeal": "Adicionar {foodFirstName} a {mealTitle}",
       "aMealDefault": "uma refeição"
     },
+    "noMealChosen": "Parece que você ainda não escolheu uma refeição.",
     "chooseMeal": "Escolha uma refeição",
-    "noMealsRecorded": "Nenhuma refeição registrada"
+    "noMealsRecorded": "Nenhuma refeição registrada",
+    "cannotAddFutureMeals": "Não é possível adicionar refeições futuras."
   }
 }

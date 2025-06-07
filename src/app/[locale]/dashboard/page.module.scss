@@ -36,3 +36,62 @@
 .searchBarWrapper {
   height: 50%;
 }
+
+.alertsWrapper {
+  background-color: transparent;
+  width: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+
+  .messageBoxIn {
+    padding: 10px;
+    text-align: center;
+    display: flex;
+    background-color: transparent;
+    width: fit-content;
+    border: 1px solid #42484d;
+    border-radius: 5px;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    animation: grow 0.3s ease-in-out forwards;
+  }
+
+  .messageBoxOut {
+    padding: 10px;
+    text-align: center;
+    display: flex;
+    background-color: transparent;
+    width: fit-content;
+    border: 1px solid #42484d;
+    border-radius: 5px;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    animation: shrink 0.3s ease-in-out forwards;
+  }
+}
+
+@keyframes grow {
+  from {
+    transform: scale(0.9);
+    opacity: 0.5;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes shrink {
+  from {
+    transform: scale(1);
+    opacity: 1;
+  }
+  to {
+    transform: scale(0.9);
+    opacity: 0.5;
+  }
+}

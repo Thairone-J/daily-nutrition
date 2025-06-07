@@ -56,7 +56,10 @@
       "addFoodToExistingMeal": "Add {foodFirstName} to {mealTitle}",
       "aMealDefault": "a meal"
     },
+
+    "noMealChosen": "It looks like you haven't chosen a meal yet.",
     "chooseMeal": "Choose a meal",
-    "noMealsRecorded": "No meals recorded"
+    "noMealsRecorded": "No meals recorded",
+    "cannotAddFutureMeals": "It's not possible to add future meals."
   }
 }

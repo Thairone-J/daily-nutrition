@@ -10,11 +10,13 @@ import { useRef } from 'react';
 type UserNutritionalGoalsProps = {
   selectedDate: string;
   setSelectedDate: React.Dispatch<React.SetStateAction<string>>;
+  setAlertMessage: React.Dispatch<React.SetStateAction<string | null>>;
 };
 
 export default function UserNutritionalGoals({
   selectedDate,
   setSelectedDate,
+  setAlertMessage,
 }: UserNutritionalGoalsProps) {
   const t = useTranslations();
 
@@ -68,7 +70,7 @@ export default function UserNutritionalGoals({
           className={styles.dateInput}
           onChange={(e) => {
             if (e.target.value > currentDateParsed) {
-              alert('Não é possível adicionar refeições futuras.');
+              setAlertMessage(`${t('dashboard.cannotAddFutureMeals')}`);
               return;
             }
 

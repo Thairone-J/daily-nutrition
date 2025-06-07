@@ -11,6 +11,7 @@ type FoodCardProps = {
   setIsFoodCardClosing: React.Dispatch<React.SetStateAction<boolean>>;
   selectedDate: string;
   setSelectedDate: React.Dispatch<React.SetStateAction<string>>;
+  setAlertMessage: React.Dispatch<React.SetStateAction<string | null>>;
 };
 
 export default function FoodCard({
@@ -19,6 +20,7 @@ export default function FoodCard({
   setIsFoodCardClosing,
   selectedDate,
   setSelectedDate,
+  setAlertMessage,
 }: FoodCardProps) {
   const t = useTranslations();
   const currentDateISO = new Date().toISOString();
@@ -40,7 +42,7 @@ export default function FoodCard({
       setHasQuantity(false);
     } else {
       if (!meal) {
-        alert('Choose a meal');
+        setAlertMessage(`${t('dashboard.noMealChosen')}`);
       } else {
         const updatedFood = {
           id: crypto.randomUUID(),

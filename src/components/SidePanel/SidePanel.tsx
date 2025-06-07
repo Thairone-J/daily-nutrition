@@ -9,18 +9,17 @@ import { getDateParsed } from '@/utils/dateUtils';
 import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 
-
-
 type SidePanelProps = {
   selectedDate: string;
   setSelectedDate: React.Dispatch<React.SetStateAction<string>>;
+  setAlertMessage: React.Dispatch<React.SetStateAction<string | null>>;
 };
 
-
-
-
-
-export default function SidePanel({selectedDate,setSelectedDate}:SidePanelProps) {
+export default function SidePanel({
+  selectedDate,
+  setSelectedDate,
+  setAlertMessage,
+}: SidePanelProps) {
   const t = useTranslations();
 
   const { addMeal } = useMeals();
@@ -68,7 +67,11 @@ export default function SidePanel({selectedDate,setSelectedDate}:SidePanelProps)
   return (
     <div className={styles.wrapper}>
       <div className={styles.userNutritionalGoalsSection}>
-        <UserNutritionalGoals selectedDate={selectedDate} setSelectedDate={setSelectedDate} />
+        <UserNutritionalGoals
+          selectedDate={selectedDate}
+          setSelectedDate={setSelectedDate}
+          setAlertMessage={setAlertMessage}
+        />
       </div>
       <div className={styles.buttonWrapper}>
         <Button variant="outline" onClick={handleAddMealClick}>
