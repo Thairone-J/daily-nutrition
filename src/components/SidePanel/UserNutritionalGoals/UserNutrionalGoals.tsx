@@ -90,7 +90,11 @@ export default function UserNutritionalGoals({
               {','} <Clock />
             </>
           ) : (
-            <span>{t('dashboard.viewingPastMeals')}</span>
+            <span className={styles.viewingPastMeals}>
+              <span className={styles.statusDot}>•</span>
+
+              {t('dashboard.viewingPastMeals')}
+            </span>
           )}
         </div>
       </div>

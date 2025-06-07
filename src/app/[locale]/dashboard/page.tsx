@@ -9,6 +9,9 @@ import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 
 export default function Dashboard() {
+  const currentDateISO = new Date().toISOString();
+  const [selectedDate, setSelectedDate] = useState(currentDateISO);
+
   const t = useTranslations();
 
   const { selectedFood } = useFoods();
@@ -17,7 +20,7 @@ export default function Dashboard() {
   return (
     <div className={styles.wrapper}>
       <div className={styles.sidePanel}>
-        <SidePanel />
+        <SidePanel selectedDate={selectedDate} setSelectedDate={setSelectedDate} />
       </div>
       <div className={styles.searchArea}>
         <div className={styles.searchBarWrapper}>
@@ -30,6 +33,8 @@ export default function Dashboard() {
               food={selectedFood}
               isFoodCardClosing={isFoodCardClosing}
               setIsFoodCardClosing={setIsFoodCardClosing}
+              selectedDate={selectedDate}
+              setSelectedDate={setSelectedDate}
             />
           ) : null}
         </div>

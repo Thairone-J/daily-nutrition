@@ -9,15 +9,24 @@ import { getDateParsed } from '@/utils/dateUtils';
 import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 
-export default function SidePanel() {
+
+
+type SidePanelProps = {
+  selectedDate: string;
+  setSelectedDate: React.Dispatch<React.SetStateAction<string>>;
+};
+
+
+
+
+
+export default function SidePanel({selectedDate,setSelectedDate}:SidePanelProps) {
   const t = useTranslations();
 
   const { addMeal } = useMeals();
 
   const currentDateISO = new Date().toISOString();
   const currentDateObject = new Date(currentDateISO);
-
-  const [selectedDate, setSelectedDate] = useState(currentDateISO);
 
   const { date: selectedDateParsed } = getDateParsed(selectedDate);
   const { date: currentDateParsed } = getDateParsed(currentDateISO);

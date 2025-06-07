@@ -9,14 +9,21 @@ type FoodCardProps = {
   food: Food;
   isFoodCardClosing: boolean;
   setIsFoodCardClosing: React.Dispatch<React.SetStateAction<boolean>>;
+  selectedDate: string;
+  setSelectedDate: React.Dispatch<React.SetStateAction<string>>;
 };
 
-export default function FoodCard({ food, isFoodCardClosing, setIsFoodCardClosing }: FoodCardProps) {
+export default function FoodCard({
+  food,
+  isFoodCardClosing,
+  setIsFoodCardClosing,
+  selectedDate,
+  setSelectedDate,
+}: FoodCardProps) {
   const t = useTranslations();
   const currentDateISO = new Date().toISOString();
-  const { date: today } = getDateParsed(currentDateISO);
+  const { date: currentDateParsed } = getDateParsed(currentDateISO);
 
-  const [selectedDate, setSelectedDate] = useState<string>(today);
   const [isAddingToMeal, setIsAddingToMeal] = useState(false);
   const [meal, setMeal] = useState<Meal | null>(null);
   const [inputFoodQuantity, setInputFoodQuantity] = useState(0);
@@ -127,12 +134,22 @@ export default function FoodCard({ food, isFoodCardClosing, setIsFoodCardClosing
             <input
               type="date"
               ref={dateInputRef}
-              defaultValue={today}
+              value={getDateParsed(selectedDate).date}
               className={styles.dateInput}
               onClick={() => dateInputRef.current?.showPicker()}
               onChange={(e) => {
-                setSelectedDate(e.target.value);
-                // Don't need ISO date for this component.
+                if (e.target.value > currentDateParsed) {
+                  alert('Não é possível adicionar refeições futuras.');
+                  return;
+                }
+
+                if (e.target.value === currentDateParsed) {
+                  setSelectedDate(currentDateISO);
+                } else {
+                  const previousDateIso = new Date(`${e.target.value}T12:00:00`).toISOString();
+                  setSelectedDate(previousDateIso);
+                }
+
                 e.target.blur();
               }}
             />

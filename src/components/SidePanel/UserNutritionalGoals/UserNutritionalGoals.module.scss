@@ -76,3 +76,15 @@
     padding-right: 5px;
   }
 }
+
+.viewingPastMeals {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  .statusDot {
+    text-align: center;
+    font-size: 1.5rem;
+    color: #13eb0b;
+    margin-right: 5px;
+  }
+}
