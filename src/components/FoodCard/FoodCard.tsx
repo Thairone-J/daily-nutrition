@@ -141,7 +141,7 @@ export default function FoodCard({
               onClick={() => dateInputRef.current?.showPicker()}
               onChange={(e) => {
                 if (e.target.value > currentDateParsed) {
-                  alert('Não é possível adicionar refeições futuras.');
+                  setAlertMessage(`${t('dashboard.cannotAddFutureMeals')}`);
                   return;
                 }
 
@@ -164,10 +164,17 @@ export default function FoodCard({
               <option value="default" disabled hidden>
                 {t('dashboard.chooseMeal')}
               </option>
-              {meals.filter((m) => m.createdAt && getDateParsed(m.createdAt).date === selectedDate)
-                .length > 0 ? (
+              {meals.filter(
+                (m) =>
+                  m.createdAt &&
+                  getDateParsed(m.createdAt).date === getDateParsed(selectedDate).date
+              ).length > 0 ? (
                 meals
-                  .filter((m) => m.createdAt && getDateParsed(m.createdAt).date === selectedDate)
+                  .filter(
+                    (m) =>
+                      m.createdAt &&
+                      getDateParsed(m.createdAt).date === getDateParsed(selectedDate).date
+                  )
                   .map((m) => (
                     <option key={m.id} value={m.id}>
                       {m.title}
