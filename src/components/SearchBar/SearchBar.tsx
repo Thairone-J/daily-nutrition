@@ -30,13 +30,22 @@ export default function SearchBar({ setIsFoodCardClosing }: SearchBarProps) {
       return;
     }
 
+    const stopWords = ['de', 'da', 'do', 'a', 'o', 'e', 'em', 'para', 'com'];
+
     const normalizedTerm = normalizeString(currentTerm);
 
-    const results = foods.filter((food) => normalizeString(food.name).includes(normalizedTerm));
+    const searchWords = normalizedTerm
+      .split(' ')
+      .filter((word) => !stopWords.includes(word) && word.length > 0);
+
+    const results = foods.filter((food) => {
+      const normalizedFoodName = normalizeString(food.name);
+
+      return searchWords.every((word) => normalizedFoodName.includes(word));
+    });
 
     setFilteredFoods(results);
   };
-
   return (
     <div className={styles.searchWrapper}>
       <input
