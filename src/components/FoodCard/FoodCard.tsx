@@ -1,7 +1,7 @@
 import styles from './FoodCard.module.scss';
 import { useMeals, Meal } from '@/context/MealsContext';
 import { useFoods, Food } from '@/context/FoodsContext';
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { getDateParsed } from '@/utils/dateUtils';
 import { useTranslations } from 'next-intl';
 
@@ -36,6 +36,10 @@ export default function FoodCard({
   const { setSelectedFood } = useFoods();
 
   const foodFirstName = food.name.split(',', 1)[0];
+
+  useEffect(() => {
+    setMeal(null);
+  }, [selectedDate]);
 
   const handleAddFoodToMeal = () => {
     if (inputFoodQuantity === 0) {
@@ -159,7 +163,7 @@ export default function FoodCard({
               name="selectMeal"
               className={styles.selectMeal}
               onChange={handleSelectMeal}
-              defaultValue={'default'}
+              value={meal ? meal.id : 'default'}
             >
               <option value="default" disabled hidden>
                 {t('dashboard.chooseMeal')}
