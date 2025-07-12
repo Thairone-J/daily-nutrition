@@ -45,4 +45,3 @@ next-env.d.ts
 /src/context/staticFoods.json
 
 /.vscode
-/src/generated/prisma
