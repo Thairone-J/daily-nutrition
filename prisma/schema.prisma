@@ -1,0 +1,94 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+// User Model
+model User {
+  id              String             @id @unique @default(uuid()) 
+  email           String             @unique
+  hashedPassword  String             
+  
+  meals           Meal[]
+  nutritionalTargets NutritionalTarget[]
+
+  createdAt       DateTime           @default(now())
+  updatedAt       DateTime           @updatedAt
+}
+
+// Meal Model
+model Meal {
+  id        String    @id @default(cuid())
+  title     String 
+  createdAt DateTime
+
+  // Relação com User
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String
+
+  // Relação com MealFood (tabela intermediária)
+  mealFoods MealFood[] // Uma refeição tem muitos itens de MealFood
+}
+
+// Food Model (Ficha técnica do alimento)
+model Food {
+  id            String  @id @default(cuid())
+  name          String  @unique 
+  kcal          Float   
+  protein       Float   
+  carbohydrates Float   
+  lipids        Float   
+  baseQuantity  Float 
+
+  mealFoods     MealFood[] // Um Food pode aparecer em muitos MealFoods
+}
+
+// MealFood Model (A tabela intermediária)
+model MealFood {
+  id            String  @id @default(cuid())
+
+  // Quantidade REAL consumida nesta instância da refeição
+  quantity      Float 
+
+  calculatedKcal          Float 
+  calculatedProtein       Float
+  calculatedCarbohydrates Float
+  calculatedLipids        Float
+
+  // Relação com Meal
+  meal   Meal   @relation(fields: [mealId], references: [id], onDelete: Cascade)
+  mealId String
+
+  // Relação com Food (o alimento base)
+  food   Food   @relation(fields: [foodId], references: [id]) // onDelete aqui pode ser SetNull ou Restrict
+  foodId String
+}
+
+// NutritionalTarget Model
+model NutritionalTarget {
+  id            String   @id @default(cuid())
+  
+  // Relação com User
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId        String
+
+  kcal          Float
+  carbohydrates Float 
+  protein       Float
+  lipids        Float 
+
+  active        Boolean  @default(true) // Indica se esta é a meta ativa do usuário
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}

@@ -1,26 +1,28 @@
 import styles from './FoodCard.module.scss';
 import { useMeals, Meal } from '@/context/MealsContext';
-import { useFoods, Food } from '@/context/FoodsContext';
+import { Food } from '@/@types/global';
 import { useState, useRef, useEffect } from 'react';
 import { getDateParsed } from '@/utils/dateUtils';
 import { useTranslations } from 'next-intl';
 
 type FoodCardProps = {
-  food: Food;
   isFoodCardClosing: boolean;
   setIsFoodCardClosing: React.Dispatch<React.SetStateAction<boolean>>;
   selectedDate: string;
   setSelectedDate: React.Dispatch<React.SetStateAction<string>>;
   setAlertMessage: React.Dispatch<React.SetStateAction<string | null>>;
+  setSelectedFood: React.Dispatch<React.SetStateAction<Food | undefined>>;
+  selectedFood: Food;
 };
 
 export default function FoodCard({
-  food,
   isFoodCardClosing,
   setIsFoodCardClosing,
   selectedDate,
   setSelectedDate,
   setAlertMessage,
+  setSelectedFood,
+  selectedFood,
 }: FoodCardProps) {
   const t = useTranslations();
   const currentDateISO = new Date().toISOString();
@@ -28,21 +30,20 @@ export default function FoodCard({
 
   const [isAddingToMeal, setIsAddingToMeal] = useState(false);
   const [meal, setMeal] = useState<Meal | null>(null);
-  const [inputFoodQuantity, setInputFoodQuantity] = useState(0);
+  const [quantityInput, setquantityInput] = useState(0);
   const [hasQuantity, setHasQuantity] = useState<boolean | 'initial'>('initial');
   const dateInputRef = useRef<HTMLInputElement>(null);
 
   const { meals, addFoodToMeal } = useMeals();
-  const { setSelectedFood } = useFoods();
 
-  const foodFirstName = food.name.split(',', 1)[0];
+  const foodFirstName = selectedFood.name.split(',', 1)[0];
 
   useEffect(() => {
     setMeal(null);
   }, [selectedDate]);
 
   const handleAddFoodToMeal = () => {
-    if (inputFoodQuantity === 0) {
+    if (quantityInput === 0) {
       setHasQuantity(false);
     } else {
       if (!meal) {
@@ -50,13 +51,13 @@ export default function FoodCard({
       } else {
         const updatedFood = {
           id: crypto.randomUUID(),
-          name: food.name,
-          quantity: inputFoodQuantity,
+          name: selectedFood.name,
+          quantity: quantityInput,
           // Recalculates nutrients proportionally to the new quantity.
-          kcal: food.kcal * inputFoodQuantity,
-          protein: food.protein * inputFoodQuantity,
-          carbohydrates: food.carbohydrates * inputFoodQuantity,
-          lipids: food.lipids * inputFoodQuantity,
+          kcal: selectedFood.kcal * quantityInput,
+          protein: selectedFood.protein * quantityInput,
+          carbohydrates: selectedFood.carbohydrates * quantityInput,
+          lipids: selectedFood.lipids * quantityInput,
         };
 
         addFoodToMeal(meal.id, updatedFood);
@@ -84,36 +85,36 @@ export default function FoodCard({
     >
       <div className={styles.header}>
         <span onClick={() => setIsFoodCardClosing(!isFoodCardClosing)}>X</span>
-        <h3 className={styles.foodName}>{food.name.toUpperCase()}</h3>
+        <h3 className={styles.foodName}>{selectedFood.name.toUpperCase()}</h3>
       </div>
 
       <div className={styles.nutrientTagsContainer}>
         <span>
           ️‍🔥
-          {inputFoodQuantity > 0
-            ? Number((food.kcal * inputFoodQuantity).toFixed(2))
-            : Number((food.kcal * 100).toFixed(2))}
+          {quantityInput > 0
+            ? Number((selectedFood.kcal * quantityInput).toFixed(2))
+            : Number((selectedFood.kcal * 100).toFixed(2))}
           kcal
         </span>
         <span>
           {`${t('dashboard.protein')}:`}
-          {inputFoodQuantity > 0
-            ? Number((food.protein * inputFoodQuantity).toFixed(2))
-            : Number((food.protein * 100).toFixed(2))}
+          {quantityInput > 0
+            ? Number((selectedFood.protein * quantityInput).toFixed(2))
+            : Number((selectedFood.protein * 100).toFixed(2))}
           g
         </span>
         <span>
           {`${t('dashboard.carbohydrates')}:`}
-          {inputFoodQuantity > 0
-            ? Number((food.carbohydrates * inputFoodQuantity).toFixed(2))
-            : Number((food.carbohydrates * 100).toFixed(2))}
+          {quantityInput > 0
+            ? Number((selectedFood.carbohydrates * quantityInput).toFixed(2))
+            : Number((selectedFood.carbohydrates * 100).toFixed(2))}
           g
         </span>
         <span className={styles.lipid}>
           {`${t('dashboard.lipids')}:`}
-          {inputFoodQuantity > 0
-            ? Number((food.lipids * inputFoodQuantity).toFixed(2))
-            : Number((food.lipids * 100).toFixed(2))}
+          {quantityInput > 0
+            ? Number((selectedFood.lipids * quantityInput).toFixed(2))
+            : Number((selectedFood.lipids * 100).toFixed(2))}
           g
         </span>
       </div>
@@ -121,14 +122,14 @@ export default function FoodCard({
       <div className={styles.controls}>
         <input
           type="number"
-          placeholder={food.quantity * 100 + 'g'}
+          placeholder={selectedFood.baseQuantity * 100 + 'g'}
           onChange={(event) => {
             const quantityInputValue = event.target.value;
             if (quantityInputValue === '') {
               setIsAddingToMeal(false);
-              setInputFoodQuantity(0);
+              setquantityInput(0);
             } else {
-              setInputFoodQuantity(Number(quantityInputValue));
+              setquantityInput(Number(quantityInputValue));
               setIsAddingToMeal(true);
             }
           }}

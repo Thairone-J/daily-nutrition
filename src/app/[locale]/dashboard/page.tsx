@@ -1,82 +1,27 @@
-'use client';
+import { Food } from '@/@types/global';
+import prisma from '@/lib/prisma';
+import DashboardClient from './DashboardClient';
 
-import styles from './page.module.scss';
-import SidePanel from '@/components/SidePanel/SidePanel';
-import SearchBar from '@/components/SearchBar/SearchBar';
-import { useFoods } from '@/context/FoodsContext';
-import FoodCard from '@/components/FoodCard/FoodCard';
-import { useState, useEffect } from 'react';
-import { useTranslations } from 'next-intl';
-import Icon from '@/components/UI/Icon/Icon';
+async function getFoods(): Promise<Food[]> {
+  try {
+    const foods = await prisma.food.findMany();
+    return foods.map((food) => ({
+      ...food,
+      kcal: food.kcal / 100,
+      protein: food.protein / 100,
+      carbohydrates: food.carbohydrates / 100,
+      lipids: food.lipids / 100,
+      baseQuantity: food.baseQuantity / 100,
+    })) as Food[];
+  } catch (error) {
+    console.error('Erro ao buscar alimentos do banco de dados:', error);
 
-export default function Dashboard() {
-  const currentDateISO = new Date().toISOString();
-  const [selectedDate, setSelectedDate] = useState(currentDateISO);
+    return [];
+  }
+}
 
-  const t = useTranslations();
+export default async function DashboardPage() {
+  const foods = await getFoods();
 
-  const { selectedFood } = useFoods();
-  const [isFoodCardClosing, setIsFoodCardClosing] = useState(false);
-  const [alertMessage, setAlertMessage] = useState<string | null>(null);
-
-  const [isAlertClosing, setIsAlertClosing] = useState(false);
-
-  useEffect(() => {
-    if (alertMessage && !isAlertClosing) {
-      const timer = setTimeout(() => {
-        setIsAlertClosing(true); // Inicia a animação de saída
-      }, 2500);
-
-      return () => clearTimeout(timer);
-    }
-  }, [alertMessage, isAlertClosing]);
-
-  const handleAlertAnimationEnd = () => {
-    // Quando a animação de 'shrink' terminar...
-    if (isAlertClosing) {
-      setAlertMessage(null);
-      setIsAlertClosing(false);
-    }
-  };
-
-  return (
-    <div className={styles.wrapper}>
-      <div className={styles.sidePanel}>
-        <SidePanel
-          selectedDate={selectedDate}
-          setSelectedDate={setSelectedDate}
-          setAlertMessage={setAlertMessage}
-        />
-      </div>
-      <div className={styles.searchArea}>
-        <div className={styles.searchBarWrapper}>
-          <h2>{t('dashboard.chooseFood')}</h2>
-          <SearchBar setIsFoodCardClosing={setIsFoodCardClosing} />
-        </div>
-        <div className={styles.currentFoodDisplayArea}>
-          <div className={styles.alertsWrapper}>
-            {alertMessage && (
-              <div
-                className={isAlertClosing ? styles.messageBoxOut : styles.messageBoxIn}
-                onAnimationEnd={handleAlertAnimationEnd}
-              >
-                <Icon name="info" size={24} />
-                {alertMessage}
-              </div>
-            )}
-          </div>
-          {selectedFood ? (
-            <FoodCard
-              food={selectedFood}
-              isFoodCardClosing={isFoodCardClosing}
-              setIsFoodCardClosing={setIsFoodCardClosing}
-              selectedDate={selectedDate}
-              setSelectedDate={setSelectedDate}
-              setAlertMessage={setAlertMessage}
-            />
-          ) : null}
-        </div>
-      </div>
-    </div>
-  );
+  return <DashboardClient foods={foods} />;
 }

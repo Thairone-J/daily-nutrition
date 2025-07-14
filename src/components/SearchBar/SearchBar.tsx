@@ -1,16 +1,21 @@
 'use client';
 import { useState } from 'react';
-import { useFoods } from '@/context/FoodsContext';
 import styles from './SearchBar.module.scss';
 import { useTranslations } from 'next-intl';
+import { Food } from '@/@types/global';
 
 type SearchBarProps = {
   setIsFoodCardClosing: React.Dispatch<React.SetStateAction<boolean>>;
+  setSelectedFood: React.Dispatch<React.SetStateAction<Food | undefined>>;
+  foods: Food[];
 };
 
-export default function SearchBar({ setIsFoodCardClosing }: SearchBarProps) {
+export default function SearchBar({
+  setIsFoodCardClosing,
+  setSelectedFood,
+  foods,
+}: SearchBarProps) {
   const t = useTranslations();
-  const { foods, setSelectedFood } = useFoods();
   const [searchTerm, setSearchTerm] = useState('');
   const [filteredFoods, setFilteredFoods] = useState(foods);
 
