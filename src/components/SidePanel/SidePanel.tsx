@@ -80,7 +80,7 @@ export default function SidePanel({
       </div>
 
       <div className={styles.mealsListSection}>
-        <MealsList selectedDate={selectedDate} meals={meals} />
+        <MealsList selectedDate={selectedDate} />
       </div>
     </div>
   );

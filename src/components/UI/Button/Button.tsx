@@ -2,7 +2,7 @@ import styles from './Button.module.scss';
 
 type ButtonProps = {
   children: React.ReactNode;
-  variant?: 'primary' | 'secondary' | 'outline';
+  variant?: 'primary' | 'secondary' | 'outline' | 'outlineSecondary';
   fontSize?: 'small' | 'medium' | 'large';
   type?: 'button' | 'submit' | 'reset';
   onClick?: () => void;

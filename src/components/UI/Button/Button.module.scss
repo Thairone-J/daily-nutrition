@@ -36,6 +36,15 @@
     }
   }
 
+  &.outlineSecondary {
+    background-color: transparent;
+    border: solid 2px #dd2e44;
+
+    &:hover {
+      background-color: #b63546;
+    }
+  }
+
   &.font-small {
     font-size: 0.8rem;
   }
