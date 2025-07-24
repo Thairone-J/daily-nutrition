@@ -2,7 +2,7 @@ import Icon from '@/components/UI/Icon/Icon';
 import styles from './MealCard.module.scss';
 import { Meal, useMeals } from '@/context/MealsContext';
 import { useState, KeyboardEvent } from 'react';
-import { Food } from '@/context/FoodsContext';
+import { Food } from '@/@types/global';
 import { useTranslations } from 'next-intl';
 
 export default function MealCard(meal: Meal) {

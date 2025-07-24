@@ -22,7 +22,7 @@ export default function SidePanel({
 }: SidePanelProps) {
   const t = useTranslations();
 
-  const { addMeal } = useMeals();
+  const { createMeal } = useMeals();
 
   const currentDateISO = new Date().toISOString();
   const currentDateObject = new Date(currentDateISO);
@@ -48,22 +48,22 @@ export default function SidePanel({
     }
   };
 
-  const createNewMeal = (createdDate: string, title: string) => {
-    return { id: crypto.randomUUID(), title: title, createdAt: createdDate, foods: [] };
-  };
+  const handlecreateMealClick = async () => {
+    try {
+      const currentHour = currentDateObject.getHours();
+      const mealTitle = getMealTitleByTime(currentHour) ?? 'Refeição';
 
-  const handleAddMealClick = () => {
-    const currentHour = currentDateObject.getHours();
-    const mealTitle = getMealTitleByTime(currentHour) ?? 'Refeição';
-
-    if (selectedDateParsed === currentDateParsed) {
-      addMeal(createNewMeal(currentDateISO, mealTitle));
-    } else {
-      const previousDateIso = new Date(`${selectedDateParsed}T12:00:00`).toISOString();
-      addMeal(createNewMeal(previousDateIso, mealTitle));
+      if (selectedDateParsed === currentDateParsed) {
+        await createMeal(mealTitle);
+      } else {
+        const previousDateIso = new Date(`${selectedDateParsed}T12:00:00`).toISOString();
+        await createMeal(mealTitle, previousDateIso);
+      }
+    } catch (error) {
+      console.error('Erro ao criar refeição:', error);
+      setAlertMessage('Falha ao criar refeição');
     }
   };
-
   return (
     <div className={styles.wrapper}>
       <div className={styles.userNutritionalGoalsSection}>
@@ -74,13 +74,13 @@ export default function SidePanel({
         />
       </div>
       <div className={styles.buttonWrapper}>
-        <Button variant="outline" onClick={handleAddMealClick}>
+        <Button variant="outline" onClick={handlecreateMealClick}>
           {t('dashboard.createMeal')}
         </Button>
       </div>
 
       <div className={styles.mealsListSection}>
-        <MealsList selectedDate={selectedDate} />
+        <MealsList selectedDate={selectedDate} meals={meals} />
       </div>
     </div>
   );

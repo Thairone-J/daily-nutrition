@@ -1,21 +1,22 @@
 'use client';
 import { createContext, useContext, useState } from 'react';
-import { Food } from './FoodsContext';
+import { Food } from '@/@types/global';
+import { createMealAction } from '@/lib/actions';
 
 export type Meal = {
   id: string;
   title?: string;
-  foods: Food[];
+  foods: Food[] | null;
   createdAt?: string;
 };
 
 type MealsContextType = {
   meals: Meal[];
-  addMeal: (meal: Meal) => void;
+  createMeal: (title: string, previousDateIso?: string) => Promise<void>;
+  deleteMeal: (mealId: string) => void;
+  updateMealTitle: (mealId: string, newTitle: string) => void;
   addFoodToMeal: (mealId: string, food: Food) => void;
   removeFoodFromMeal: (mealId: string, foodId: string) => void;
-  updateMealTitle: (mealId: string, newTitle: string) => void;
-  deleteMeal: (mealId: string) => void;
   updateFood: (mealId: string, food: Food) => void;
 };
 
@@ -24,12 +25,34 @@ const MealsContext = createContext<MealsContextType | undefined>(undefined);
 export function MealsProvider({ children }: { children: React.ReactNode }) {
   const [meals, setMeals] = useState<Meal[]>([]);
 
-  const addMeal = (meal: Meal) => {
-    setMeals((prevMeals) => [...prevMeals, meal]);
-  };
+  const createMeal = async (title: string, previousDateIso?: string) => {
+    try {
+      const result = await createMealAction(title, previousDateIso);
 
+      if (result.success && result.data) {
+        const newMeal: Meal = {
+          id: result.data.id,
+          title: result.data.title || '',
+          foods: [],
+          createdAt: result.data.createdAt?.toISOString(),
+        };
+        setMeals((prevMeals) => [...prevMeals, newMeal]);
+      } else {
+        throw new Error(result.error || 'Erro desconhecido ao criar refeição');
+      }
+    } catch (error) {
+      console.error('Erro ao criar refeição:', error);
+      throw error; // Propaga o erro para ser tratado no componente
+    }
+  };
   const deleteMeal = (mealId: string) => {
     setMeals((prevMeals) => prevMeals.filter((meal) => meal.id !== mealId));
+  };
+
+  const updateMealTitle = (mealId: string, newTitle: string) => {
+    setMeals((prevMeals) =>
+      prevMeals.map((meal) => (meal.id === mealId ? { ...meal, title: newTitle } : meal))
+    );
   };
 
   const addFoodToMeal = (mealId: string, food: Food) => {
@@ -54,11 +77,6 @@ export function MealsProvider({ children }: { children: React.ReactNode }) {
     );
   };
 
-  const updateMealTitle = (mealId: string, newTitle: string) => {
-    setMeals((prevMeals) =>
-      prevMeals.map((meal) => (meal.id === mealId ? { ...meal, title: newTitle } : meal))
-    );
-  };
   const updateFood = (mealId: string, food: Food) => {
     setMeals((prevMeals) => {
       const mealToUpdate = prevMeals.find((meal) => meal.id === mealId);
@@ -84,11 +102,11 @@ export function MealsProvider({ children }: { children: React.ReactNode }) {
     <MealsContext.Provider
       value={{
         meals,
-        addMeal,
+        createMeal,
+        deleteMeal,
+        updateMealTitle,
         addFoodToMeal,
         removeFoodFromMeal,
-        updateMealTitle,
-        deleteMeal,
         updateFood,
       }}
     >

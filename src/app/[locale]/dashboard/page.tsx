@@ -1,27 +1,20 @@
-import { Food } from '@/@types/global';
-import prisma from '@/lib/prisma';
+import { getFoods } from '@/lib/data';
 import DashboardClient from './DashboardClient';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/app/api/auth/[...nextauth]/route';
+import type { Metadata } from 'next';
 
-async function getFoods(): Promise<Food[]> {
-  try {
-    const foods = await prisma.food.findMany();
-    return foods.map((food) => ({
-      ...food,
-      kcal: food.kcal / 100,
-      protein: food.protein / 100,
-      carbohydrates: food.carbohydrates / 100,
-      lipids: food.lipids / 100,
-      baseQuantity: food.baseQuantity / 100,
-    })) as Food[];
-  } catch (error) {
-    console.error('Erro ao buscar alimentos do banco de dados:', error);
+export async function generateMetadata(): Promise<Metadata> {
+  const session = await getServerSession(authOptions);
 
-    return [];
+  if (session?.user?.name) {
+    return { title: `Refeições de ${session.user.name}` };
   }
+
+  return { title: 'Dashboard' };
 }
 
 export default async function DashboardPage() {
   const foods = await getFoods();
-
   return <DashboardClient foods={foods} />;
 }

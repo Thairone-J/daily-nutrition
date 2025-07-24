@@ -6,6 +6,11 @@ import { MealsProvider } from '@/context/MealsContext';
 import { NextIntlClientProvider, hasLocale } from 'next-intl';
 import { notFound } from 'next/navigation';
 import { routing } from '@/i18n/routing';
+import SessionWrapper from '@/components/SessionWrapper';
+
+export const metadata = {
+  title: 'Daily Nutrition App',
+};
 
 export default async function RootLayout({
   children,
@@ -23,13 +28,15 @@ export default async function RootLayout({
     <html lang={locale}>
       <body>
         <div className={styles.wrapper}>
-          <NextIntlClientProvider>
-            <Header />
-            <MealsProvider>
-              <main className={styles.main}>{children}</main>
-            </MealsProvider>
-            <Footer />
-          </NextIntlClientProvider>
+          <SessionWrapper>
+            <NextIntlClientProvider>
+              <Header />
+              <MealsProvider>
+                <main className={styles.main}>{children}</main>
+              </MealsProvider>
+              <Footer />
+            </NextIntlClientProvider>
+          </SessionWrapper>
         </div>
       </body>
     </html>

@@ -5,6 +5,7 @@ import styles from './AuthForm.module.scss';
 import Link from 'next/link';
 
 import { useTranslations } from 'next-intl';
+import { signIn } from 'next-auth/react';
 
 type AuthMode = 'login' | 'register';
 
@@ -46,7 +47,12 @@ export default function AuthForm({ mode, onSubmit }: AuthFormProps) {
         <Link href="">{t('authForm.forgotPasswordLink')}</Link>
       </div>
       <div className={styles.buttonWrapper}>
-        <Button type="submit" variant="outline" fontSize="small">
+        <Button
+          type="button"
+          variant="outline"
+          fontSize="small"
+          onClick={() => signIn('google', { callbackUrl: '/dashboard' })}
+        >
           {mode === 'login'
             ? t('authForm.login.googleButton')
             : t('authForm.register.googleButton')}

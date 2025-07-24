@@ -1,12 +1,12 @@
-'use client';
 import Link from 'next/link';
 import styles from './Header.module.scss';
-import { usePathname } from 'next/navigation';
 import LanguageSwitcher from '../LanguageSwitcher/LanguageSwitcher';
+import SignInOutButton from './SignInOutButton';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 
-export default function Header() {
-  const pathname = usePathname();
-  const isAuthPage = pathname.includes('/login', 0) || pathname.includes('/register', 0);
+export default async function Header() {
+  const session = await getServerSession(authOptions);
 
   return (
     <header className={styles.header}>
@@ -16,7 +16,8 @@ export default function Header() {
       </Link>
       <div className={styles.nav}>
         <LanguageSwitcher />
-        {isAuthPage ? null : <Link href="/login">Login</Link>}
+
+        <SignInOutButton session={session} />
       </div>
     </header>
   );
